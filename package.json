@@ -13,7 +13,7 @@
     "countapi-js": "^1.0.2",
     "github-calendar": "^2.2.9",
     "jquery": "^3.6.0",
-    "markdown-to-jsx": "^7.1.6",
+    "markdown-to-jsx": "^7.4.0",
     "react": "^17.0.2",
     "react-bootstrap": "^2.1.2",
     "react-calendly": "^2.2.3",
