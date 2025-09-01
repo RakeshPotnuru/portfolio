@@ -13,7 +13,7 @@ export default function DonationBox({ title }: { title?: string }) {
   return (
     <Row className="justify-between rounded-xl bg-chart-6 p-8 text-black flex-col md:flex-row gap-4">
       <p className="font-bold">{title || "Loved this post?"}</p>
-      <Row className="gap-2">
+      <Row className="gap-2 flex-col md:flex-row">
         <a href={siteConfig.links.donate} target="_blank" rel="noreferrer">
           <Button variant={"secondary"}>🍕 Buy me a pizza</Button>
         </a>
@@ -32,7 +32,7 @@ function DonateViaUPI() {
           <StaticImage
             src="../../images/upi-logo.svg"
             alt="UPI"
-            className="rounded-lg"
+            className="rounded-lg shrink-0"
             width={40}
           />
         </Button>
