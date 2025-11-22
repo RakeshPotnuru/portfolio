@@ -3,7 +3,6 @@ import React from "react";
 
 import Layout from "@/components/common/layout";
 import { Seo } from "@/components/common/seo";
-import ExploreTools from "@/components/modules/home/explore-tools";
 import Hero from "@/components/modules/home/hero";
 import LatestBlogPosts from "@/components/modules/home/latest-blog-posts";
 import LatestSnippets from "@/components/modules/home/latest-snippets";
@@ -21,7 +20,7 @@ export default function HomePage({
       <PastClients pastClients={data.allContentfulClient} />
       <RecentProjects projects={data.allContentfulProject} />
       <LatestBlogPosts nodes={data.allContentfulBlogPost.nodes} />
-      <ExploreTools />
+      {/* <ExploreTools /> */}
       <LatestSnippets nodes={data.allContentfulSnippet.nodes} />
       <WhyHireMe />
     </Layout>

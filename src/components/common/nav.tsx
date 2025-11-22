@@ -48,7 +48,11 @@ export default function Nav({
         {/* Desktop Menu */}
         <Row className="hidden md:flex gap-2">
           {Object.values(siteConfig.pages)
-            .filter((item) => item !== siteConfig.pages.series)
+            .filter(
+              (item) =>
+                item !== siteConfig.pages.series &&
+                item !== siteConfig.pages.tools
+            )
             .map((item) => (
               <Link key={item.link} to={item.link}>
                 <Button
@@ -75,7 +79,11 @@ export default function Nav({
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
             {Object.values(siteConfig.pages)
-              .filter((item) => item !== siteConfig.pages.series)
+              .filter(
+                (item) =>
+                  item !== siteConfig.pages.series &&
+                  item !== siteConfig.pages.tools
+              )
               .map((item) => (
                 <DropdownMenuItem key={item.link} asChild>
                   <Link to={item.link} className="w-full">
