@@ -1,3 +1,4 @@
+import { Link } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import React from "react";
 
@@ -24,20 +25,20 @@ export default function Intro() {
         Whether it&apos;s system design, development, or even marketing, I
         handle it all.
         <br />I regularly share my insights and experiences on my{" "}
-        <a
-          href={siteConfig.links.blog}
-          target="_blank"
-          className="underline text-primary" rel="noreferrer"
+        <Link
+          to={siteConfig.pages.blog.link}
+          className="underline text-primary"
         >
           blog
-        </a>
+        </Link>
         , where I discuss everything from technical deep dives to lessons
         learned in product development. I&apos;m also an active contributor to
         developer communities and open source projects, having participated in{" "}
         <a
           href={siteConfig.links.ytPlaylists}
           target="_blank"
-          className="underline text-primary" rel="noreferrer"
+          className="underline text-primary"
+          rel="noreferrer"
         >
           workshops, events,
         </a>{" "}

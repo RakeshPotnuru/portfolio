@@ -52,7 +52,9 @@ export const pageQuery = graphql`
           tag
           title
           endDate(formatString: "MMM, YYYY")
-          description
+          description {
+            raw
+          }
         }
         fieldValue
       }

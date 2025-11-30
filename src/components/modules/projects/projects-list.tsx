@@ -83,6 +83,7 @@ export default function ProjectsList({
               image={project.images![0]?.gatsbyImageData as IGatsbyImageData}
               slug={project.slug!}
               url={project.url!}
+              tags={project.tags}
             />
           ))}
         </div>

@@ -41,6 +41,7 @@ export const pageQuery = graphql`
         images {
           gatsbyImageData(placeholder: BLURRED)
         }
+        tags
       }
     }
     allContentfulTechnology {

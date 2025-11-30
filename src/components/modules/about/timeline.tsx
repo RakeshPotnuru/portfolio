@@ -1,10 +1,13 @@
 import { GatsbyImage, IGatsbyImageData } from "gatsby-plugin-image";
+import { renderRichText } from "gatsby-source-contentful/rich-text";
 import React from "react";
 
 import { Heading } from "@/components/ui/heading";
 import { Badge } from "@/components/ui/reusables/badge";
 import Row from "@/components/ui/row";
 import { cn } from "@/utils/cn";
+
+import { options } from "../projects/project/body";
 
 export default function Timeline({
   group,
@@ -62,9 +65,9 @@ function ExpItem({
         )}
       </Row>
       {description && (
-        <p className="mb-4 text-base font-normal text-muted-foreground">
-          {description}
-        </p>
+        <div className="space-y-2 whitespace-pre-wrap">
+          {description?.raw && renderRichText(description, options)}
+        </div>
       )}
     </li>
   );

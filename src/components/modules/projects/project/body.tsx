@@ -52,7 +52,7 @@ export default function Body({
   );
 }
 
-const options = {
+export const options = {
   renderNode: {
     [BLOCKS.EMBEDDED_ASSET]: (node: Node) => {
       const { gatsbyImage, description } = node.data.target;

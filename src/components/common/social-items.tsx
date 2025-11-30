@@ -6,7 +6,7 @@ import { siteConfig } from "@/config/site";
 import Row from "../ui/row";
 
 export default function SocialItems() {
-  const { github, linkedin, medium, psn, peerlist, donate } = siteConfig.links;
+  const { github, linkedin, medium, peerlist, donate } = siteConfig.links;
 
   return (
     <Row className="gap-2">
@@ -19,7 +19,7 @@ export default function SocialItems() {
           link: peerlist,
           title: "Peerlist",
         },
-        { icon: <Icons.Playstation />, link: psn, title: "Playstation" },
+        // { icon: <Icons.Playstation />, link: psn, title: "Playstation" },
         { icon: <Icons.Donate />, link: donate, title: "Donate" },
       ].map((item) => (
         <a

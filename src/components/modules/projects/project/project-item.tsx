@@ -4,6 +4,7 @@ import React from "react";
 
 import { Icons } from "@/assets/icons";
 import { Heading } from "@/components/ui/heading";
+import { Badge } from "@/components/ui/reusables/badge";
 import { Button } from "@/components/ui/reusables/button";
 import { siteConfig } from "@/config/site";
 
@@ -12,6 +13,7 @@ interface ProjectItemProps {
   slug: string;
   url: string;
   image: IGatsbyImageData;
+  tags?: readonly (string | null)[] | null;
 }
 
 export function ProjectItem({
@@ -19,9 +21,10 @@ export function ProjectItem({
   image,
   slug,
   url,
+  tags,
 }: Readonly<ProjectItemProps>) {
   return (
-    <div className="border rounded-xl">
+    <div className="border rounded-xl relative">
       <Link to={`${siteConfig.pages.projects.link}/${slug}`}>
         <GatsbyImage
           image={image}
@@ -29,6 +32,11 @@ export function ProjectItem({
           className="rounded-t-xl hover:opacity-80"
         />
       </Link>
+      {tags && (
+        <Badge variant={"secondary"} className="absolute top-2 right-2">
+          {tags[0]}
+        </Badge>
+      )}
       <Heading level={4} className="p-2 px-4">
         {title}
       </Heading>
