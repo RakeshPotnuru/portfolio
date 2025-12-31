@@ -43,7 +43,10 @@ export function Head() {
 
 export const pageQuery = graphql`
   query BlogPage {
-    allContentfulBlogPost(sort: [{ publishedAt: DESC }]) {
+    allContentfulBlogPost(
+      sort: [{ publishedAt: DESC }]
+      filter: { publishedAt: { ne: null } }
+    ) {
       nodes {
         id
         slug
