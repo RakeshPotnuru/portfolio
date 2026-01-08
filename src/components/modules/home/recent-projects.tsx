@@ -22,7 +22,7 @@ export default function RecentProjects({
           <Button>View All</Button>
         </Link>
       </Row>
-      <Row className="gap-10 flex-col md:flex-row">
+      <div className="gap-10 grid md:grid-cols-2">
         {projects.nodes.map((project) => (
           <ProjectItem
             key={project.id}
@@ -32,7 +32,7 @@ export default function RecentProjects({
             image={project.images![0]?.gatsbyImageData as IGatsbyImageData}
           />
         ))}
-      </Row>
+      </div>
     </div>
   );
 }
