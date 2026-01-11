@@ -60,7 +60,7 @@ export const pageQuery = graphql`
         publishedAt
       }
     }
-    allContentfulBlogSeries(limit: 3) {
+    allContentfulBlogSeries(limit: 3, sort: [{ updatedAt: DESC }]) {
       nodes {
         id
         slug

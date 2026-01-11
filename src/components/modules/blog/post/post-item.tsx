@@ -38,7 +38,7 @@ export function PostItem({
   return (
     <Link to={`${siteConfig.pages.blog.link}/${slug}`}>
       <Col
-        className={cn("rounded-xl border hover:opacity-80 h-full", {
+        className={cn("rounded-xl border hover:opacity-80 h-full items-start", {
           "md:flex-row md:items-start md:h-full": isSeries,
         })}
       >
