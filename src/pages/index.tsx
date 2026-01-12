@@ -17,7 +17,7 @@ export default function HomePage({
   return (
     <Layout location={location} className="space-y-20">
       <Hero />
-      <PastClients pastClients={data.allContentfulClient} />
+      {/* <PastClients pastClients={data.allContentfulClient} /> */}
       <RecentProjects projects={data.allContentfulProject} />
       <LatestBlogPosts nodes={data.allContentfulBlogPost.nodes} />
       {/* <ExploreTools /> */}
