@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { Link } from "gatsby";
 import { GatsbyImage, IGatsbyImageData } from "gatsby-plugin-image";
 import React from "react";
@@ -14,6 +15,7 @@ interface ProjectItemProps {
   url: string;
   image: IGatsbyImageData;
   tags?: readonly (string | null)[] | null;
+  launchedAt: string;
 }
 
 export function ProjectItem({
@@ -22,6 +24,7 @@ export function ProjectItem({
   slug,
   url,
   tags,
+  launchedAt,
 }: Readonly<ProjectItemProps>) {
   return (
     <div className="border rounded-xl relative">
@@ -37,8 +40,11 @@ export function ProjectItem({
           {tags[0]}
         </Badge>
       )}
-      <Heading level={4} className="p-2 px-4">
-        {title}
+      <Heading level={4} className="p-2 px-4 flex justify-between items-center">
+        {title}{" "}
+        <time dateTime={launchedAt} className="text-sm text-muted-foreground">
+          {format(new Date(launchedAt), "MMM d, yyyy")}
+        </time>
       </Heading>
       <div className="grid grid-cols-2 divide-x border-t">
         <Link to={`${siteConfig.pages.projects.link}/${slug}`}>

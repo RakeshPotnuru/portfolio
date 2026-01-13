@@ -42,6 +42,7 @@ export const pageQuery = graphql`
           gatsbyImageData(placeholder: BLURRED)
         }
         tags
+        launchedAt
       }
     }
     allContentfulTechnology {
@@ -54,6 +55,7 @@ export const pageQuery = graphql`
           gatsbyImageData(placeholder: BLURRED)
         }
         id
+        type
       }
     }
   }

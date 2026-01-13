@@ -1,4 +1,5 @@
 import { BLOCKS, Node } from "@contentful/rich-text-types";
+import { format } from "date-fns";
 import { GatsbyImage, getImage, IGatsbyImageData } from "gatsby-plugin-image";
 import { renderRichText } from "gatsby-source-contentful/rich-text";
 import React from "react";
@@ -13,7 +14,7 @@ import Row from "@/components/ui/row";
 export default function Body({
   contentfulProject,
 }: Queries.ProjectBySlugQuery) {
-  const { title, url, techStack, body } = contentfulProject!;
+  const { title, url, techStack, body, launchedAt } = contentfulProject!;
 
   return (
     <Col className="items-start space-y-8">
@@ -26,7 +27,10 @@ export default function Body({
           rel="noreferrer"
         >
           <Button variant={"secondary"} className="w-full">
-            <Icons.ExternalLink /> Visit
+            <Icons.ExternalLink />{" "}
+            {new URL(url!).hostname.includes("github")
+              ? "Source Code"
+              : "Visit"}
           </Button>
         </a>
       </Row>
@@ -45,6 +49,12 @@ export default function Body({
           ))}
         </Row>
       )}
+      <Row className="flex-wrap gap-2 text-muted-foreground">
+        Launched/Completed At:
+        <time dateTime={launchedAt!} className="text-foreground">
+          {format(new Date(launchedAt!), "MMM d, yyyy")}
+        </time>
+      </Row>
       <div className="space-y-2 whitespace-pre-wrap">
         {body?.raw && renderRichText(body, options)}
       </div>

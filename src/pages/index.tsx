@@ -6,7 +6,7 @@ import { Seo } from "@/components/common/seo";
 import Hero from "@/components/modules/home/hero";
 import LatestBlogPosts from "@/components/modules/home/latest-blog-posts";
 import LatestSnippets from "@/components/modules/home/latest-snippets";
-import PastClients from "@/components/modules/home/past-clients";
+// import PastClients from "@/components/modules/home/past-clients";
 import RecentProjects from "@/components/modules/home/recent-projects";
 import WhyHireMe from "@/components/modules/home/why-hire-me";
 
@@ -51,6 +51,7 @@ export const pageQuery = graphql`
           gatsbyImageData(placeholder: BLURRED)
         }
         url
+        launchedAt
       }
     }
     allContentfulBlogPost(limit: 2, sort: [{ publishedAt: DESC }]) {

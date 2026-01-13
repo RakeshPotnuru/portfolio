@@ -30,6 +30,7 @@ export default function RecentProjects({
             slug={project.slug ?? ""}
             url={project.url ?? ""}
             image={project.images![0]?.gatsbyImageData as IGatsbyImageData}
+            launchedAt={project.launchedAt ?? ""}
           />
         ))}
       </div>

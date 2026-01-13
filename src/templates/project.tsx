@@ -57,6 +57,7 @@ export const pageQuery = graphql`
         gatsbyImageData
         publicUrl
       }
+      launchedAt
     }
   }
 `;
