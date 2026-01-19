@@ -1,4 +1,3 @@
-import { Link } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import React from "react";
 
@@ -16,33 +15,31 @@ export default function Intro() {
       />
       <Heading level={3}>Short Bio</Heading>
       <p className="leading-loose">
-        Hi there! Thanks for stopping by.
+        Hi! Thanks for stopping by.
         <br />
-        I&apos;m Rakesh, a software engineer, tech enthusiast, and product
-        creator with a passion for building innovative tools and solutions. With
-        experience across a wide range of technologies, I&apos;ve worked on
-        projects of all sizes, from small prototypes to large-scale systems.
-        Whether it&apos;s system design, development, or even marketing, I
-        handle it all.
-        <br />I regularly share my insights and experiences on my{" "}
-        <Link
-          to={siteConfig.pages.blog.link}
-          className="underline text-primary"
-        >
-          blog
-        </Link>
-        , where I discuss everything from technical deep dives to lessons
-        learned in product development. I&apos;m also an active contributor to
-        developer communities and open source projects, having participated in{" "}
+        <br />
+        I&apos;m Rakesh, a software engineer who builds products end-to-end and
+        enjoys optimizing both codebases and loadouts. I&apos;ve worked on
+        enterprise AI platforms, DeFi infrastructure, and creator tools,
+        focusing on performance, clarity, and systems that hold up under
+        real-world use.
+        <br />
+        <br />I like thinking in systems: clean architectures, thoughtful
+        trade-offs, and interfaces that make complex things feel obvious. When
+        I&apos;m not shipping software, I&apos;m{" "}
         <a
-          href={siteConfig.links.ytPlaylists}
+          href={siteConfig.links.psn}
           target="_blank"
           className="underline text-primary"
           rel="noreferrer"
         >
-          workshops, events,
-        </a>{" "}
-        and collaborative initiatives.
+          gaming
+        </a>
+        , which probably explains my obsession with feedback loops, latency, and
+        making things feel responsive.
+        <br />
+        <br />I enjoy building things people actually use, improving them
+        iteratively, and knowing when to refactor… and when to just ship.
       </p>
     </div>
   );

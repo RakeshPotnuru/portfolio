@@ -6,7 +6,6 @@ import { Seo } from "@/components/common/seo";
 import Hero from "@/components/modules/home/hero";
 import LatestBlogPosts from "@/components/modules/home/latest-blog-posts";
 import LatestSnippets from "@/components/modules/home/latest-snippets";
-// import PastClients from "@/components/modules/home/past-clients";
 import RecentProjects from "@/components/modules/home/recent-projects";
 import WhyHireMe from "@/components/modules/home/why-hire-me";
 
@@ -17,7 +16,6 @@ export default function HomePage({
   return (
     <Layout location={location} className="space-y-20">
       <Hero />
-      {/* <PastClients pastClients={data.allContentfulClient} /> */}
       <RecentProjects projects={data.allContentfulProject} />
       <LatestBlogPosts nodes={data.allContentfulBlogPost.nodes} />
       {/* <ExploreTools /> */}
@@ -33,15 +31,6 @@ export function Head() {
 
 export const pageQuery = graphql`
   query HomePage {
-    allContentfulClient {
-      nodes {
-        id
-        name
-        logo {
-          gatsbyImageData(placeholder: BLURRED)
-        }
-      }
-    }
     allContentfulProject(limit: 2, sort: { launchedAt: DESC }) {
       nodes {
         id

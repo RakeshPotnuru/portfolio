@@ -5,17 +5,19 @@ import Layout from "@/components/common/layout";
 import { Seo } from "@/components/common/seo";
 import Intro from "@/components/modules/about/intro";
 import Timeline from "@/components/modules/about/timeline";
+import PastClients from "@/components/modules/home/past-clients";
 import { Heading } from "@/components/ui/heading";
 import { siteConfig } from "@/config/site";
 
 export default function AboutPage({
   location,
-  data: { allContentfulTimeline },
+  data: { allContentfulTimeline, allContentfulClient },
 }: PageProps<Queries.AboutPageQuery>) {
   return (
     <Layout location={location} className="space-y-16">
       <Heading level={1}>About Me</Heading>
       <Intro />
+      <PastClients pastClients={allContentfulClient} />
       <Timeline
         group={
           allContentfulTimeline.group as unknown as {
@@ -57,6 +59,15 @@ export const pageQuery = graphql`
           }
         }
         fieldValue
+      }
+    }
+    allContentfulClient {
+      nodes {
+        id
+        name
+        logo {
+          gatsbyImageData(placeholder: BLURRED)
+        }
       }
     }
   }

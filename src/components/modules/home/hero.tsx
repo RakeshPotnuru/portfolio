@@ -38,10 +38,10 @@ export default function Hero() {
         <div>
           <Link to="/about">
             <Button variant={"link"} className="h-max p-0 text-md">
-              Learn more <Icons.InternalLink className="-ml-1" />
+              Work Experience and more about me
+              <Icons.Right className="-ml-1" />
             </Button>
           </Link>{" "}
-          about me
         </div>
         <Row className="gap-2">
           Follow me <SocialItems />

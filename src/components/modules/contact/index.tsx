@@ -33,7 +33,7 @@ export const isDisposableEmail = async (email: string): Promise<boolean> => {
   try {
     const response = await fetch(
       `${siteConfig.links.disposableEmailChecker}${email}`,
-      { method: "GET" }
+      { method: "GET" },
     );
 
     const data = await response.json();
@@ -183,6 +183,16 @@ export default function Contact() {
               className="px-1 h-6 text-base rounded-sm font-normal"
             >
               <Icons.LinkedIn /> LinkedIn
+            </Button>
+          </a>
+          or{" "}
+          <a href={siteConfig.links.email} target="_blank" rel="noreferrer">
+            <Button
+              variant={"secondary"}
+              size={"sm"}
+              className="px-1 h-6 text-base rounded-sm font-normal"
+            >
+              <Icons.Email /> Email
             </Button>
           </a>
         </Row>
