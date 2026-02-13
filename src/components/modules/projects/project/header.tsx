@@ -37,14 +37,20 @@ export default function Header({
         align: "start",
         loop: true,
       }}
-      plugins={[Autoplay({ delay: 4000 })]}
+      plugins={[
+        Autoplay({
+          delay: 4000,
+          stopOnMouseEnter: true,
+          stopOnInteraction: true,
+        }),
+      ]}
       className="mx-4 md:mx-0"
     >
       <CarouselContent>
         {videoDemoUrl && (
           <CarouselItem>
             <Center className="h-full">
-              <AspectRatio ratio={16 / 9}>
+              <AspectRatio ratio={3 / 2}>
                 {isLoom ? (
                   <iframe
                     title="loom"
@@ -74,7 +80,7 @@ export default function Header({
             <GatsbyImage
               image={img?.gatsbyImageData as IGatsbyImageData}
               alt={`${i}`}
-              className="rounded-xl"
+              className="rounded-xl aspect-[3/2]"
             />
           </CarouselItem>
         ))}

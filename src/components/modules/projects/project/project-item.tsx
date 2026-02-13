@@ -29,11 +29,14 @@ export function ProjectItem({
   return (
     <div className="border rounded-xl relative">
       <Link to={`${siteConfig.pages.projects.link}/${slug}`}>
-        <GatsbyImage
-          image={image}
-          alt={title}
-          className="rounded-t-xl hover:opacity-80"
-        />
+        <div className="aspect-[3/2] overflow-hidden rounded-t-xl">
+          <GatsbyImage
+            image={image}
+            alt={title}
+            className="h-full w-full hover:opacity-80"
+            objectFit="cover"
+          />
+        </div>
       </Link>
       {tags && (
         <Badge variant={"secondary"} className="absolute top-2 right-2">
