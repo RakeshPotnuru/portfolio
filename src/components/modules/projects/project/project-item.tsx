@@ -27,45 +27,54 @@ export function ProjectItem({
   launchedAt,
 }: Readonly<ProjectItemProps>) {
   return (
-    <div className="border rounded-xl relative">
-      <Link to={`${siteConfig.pages.projects.link}/${slug}`}>
-        <div className="aspect-[3/2] overflow-hidden rounded-t-xl">
-          <GatsbyImage
-            image={image}
-            alt={title}
-            className="h-full w-full hover:opacity-80"
-            objectFit="cover"
-          />
-        </div>
-      </Link>
+    <div className="group relative aspect-[3/2] rounded-xl overflow-hidden">
+      <GatsbyImage
+        image={image}
+        alt={title}
+        className="h-full w-full transition-transform duration-500 group-hover:scale-105"
+        objectFit="cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
       {tags && (
-        <Badge variant={"secondary"} className="absolute top-2 right-2">
+        <Badge
+          variant={"secondary"}
+          className="absolute top-3 right-3 shadow-sm backdrop-blur-sm"
+        >
           {tags[0]}
         </Badge>
       )}
-      <Heading level={4} className="p-2 px-4 flex justify-between items-center">
-        {title}{" "}
-        <time dateTime={launchedAt} className="text-sm text-muted-foreground">
-          {format(new Date(launchedAt), "MMM d, yyyy")}
-        </time>
-      </Heading>
-      <div className="grid grid-cols-2 divide-x border-t">
-        <Link to={`${siteConfig.pages.projects.link}/${slug}`}>
-          <Button
-            variant={"ghost"}
-            className="w-full rounded-none rounded-bl-xl"
+      <div className="absolute bottom-0 inset-x-0 p-4 space-y-3">
+        <div>
+          <Heading level={4} className="text-white">
+            {title}
+          </Heading>
+          <time
+            dateTime={launchedAt}
+            className="text-xs text-white/70"
           >
-            <Icons.Read /> Learn More
-          </Button>
-        </Link>
-        <a href={url} target="_blank" rel="noreferrer">
-          <Button
-            variant={"ghost"}
-            className="w-full rounded-none rounded-br-xl"
-          >
-            <Icons.ExternalLink /> Visit
-          </Button>
-        </a>
+            {format(new Date(launchedAt), "MMM d, yyyy")}
+          </time>
+        </div>
+        <div className="flex gap-2">
+          <Link to={`${siteConfig.pages.projects.link}/${slug}`}>
+            <Button
+              size={"sm"}
+              variant={"secondary"}
+              className="backdrop-blur-sm"
+            >
+              <Icons.Read /> Learn More
+            </Button>
+          </Link>
+          <a href={url} target="_blank" rel="noreferrer">
+            <Button
+              size={"sm"}
+              variant={"secondary"}
+              className="backdrop-blur-sm"
+            >
+              <Icons.ExternalLink /> Visit
+            </Button>
+          </a>
+        </div>
       </div>
     </div>
   );
