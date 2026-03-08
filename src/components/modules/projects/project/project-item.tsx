@@ -27,7 +27,7 @@ export function ProjectItem({
   launchedAt,
 }: Readonly<ProjectItemProps>) {
   return (
-    <div className="group relative aspect-[3/2] rounded-xl overflow-hidden">
+    <Link to={`${siteConfig.pages.projects.link}/${slug}`} className="group relative aspect-[3/2] rounded-xl overflow-hidden block">
       <GatsbyImage
         image={image}
         alt={title}
@@ -56,16 +56,14 @@ export function ProjectItem({
           </time>
         </div>
         <div className="flex gap-2">
-          <Link to={`${siteConfig.pages.projects.link}/${slug}`}>
-            <Button
-              size={"sm"}
-              variant={"secondary"}
-              className="backdrop-blur-sm"
-            >
-              <Icons.Read /> Learn More
-            </Button>
-          </Link>
-          <a href={url} target="_blank" rel="noreferrer">
+          <Button
+            size={"sm"}
+            variant={"secondary"}
+            className="backdrop-blur-sm"
+          >
+            <Icons.Read /> Learn More
+          </Button>
+          <a href={url} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
             <Button
               size={"sm"}
               variant={"secondary"}
@@ -76,6 +74,6 @@ export function ProjectItem({
           </a>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
