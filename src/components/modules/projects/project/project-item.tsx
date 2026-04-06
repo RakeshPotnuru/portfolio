@@ -27,7 +27,12 @@ export function ProjectItem({
   launchedAt,
 }: Readonly<ProjectItemProps>) {
   return (
-    <Link to={`${siteConfig.pages.projects.link}/${slug}`} className="group relative aspect-[3/2] rounded-xl overflow-hidden block">
+    <article className="group relative isolate block aspect-[3/2] overflow-hidden rounded-xl bg-muted">
+      <Link
+        to={`${siteConfig.pages.projects.link}/${slug}`}
+        aria-label={`Learn more about ${title}`}
+        className="absolute inset-0 z-10"
+      />
       <GatsbyImage
         image={image}
         alt={title}
@@ -38,12 +43,12 @@ export function ProjectItem({
       {tags && (
         <Badge
           variant={"secondary"}
-          className="absolute top-3 right-3 shadow-sm backdrop-blur-sm"
+          className="absolute top-3 right-3 z-20 shadow-sm backdrop-blur-sm"
         >
           {tags[0]}
         </Badge>
       )}
-      <div className="absolute bottom-0 inset-x-0 p-4 space-y-3">
+      <div className="absolute inset-x-0 bottom-0 z-20 space-y-3 p-4">
         <div>
           <Heading level={4} className="text-white">
             {title}
@@ -57,23 +62,27 @@ export function ProjectItem({
         </div>
         <div className="flex gap-2">
           <Button
+            asChild
             size={"sm"}
             variant={"secondary"}
             className="backdrop-blur-sm"
           >
-            <Icons.Read /> Learn More
+            <Link to={`${siteConfig.pages.projects.link}/${slug}`}>
+              <Icons.Read /> Learn More
+            </Link>
           </Button>
-          <a href={url} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
-            <Button
-              size={"sm"}
-              variant={"secondary"}
-              className="backdrop-blur-sm"
-            >
+          <Button
+            asChild
+            size={"sm"}
+            variant={"secondary"}
+            className="backdrop-blur-sm"
+          >
+            <a href={url} target="_blank" rel="noreferrer">
               <Icons.ExternalLink /> Visit
-            </Button>
-          </a>
+            </a>
+          </Button>
         </div>
       </div>
-    </Link>
+    </article>
   );
 }
