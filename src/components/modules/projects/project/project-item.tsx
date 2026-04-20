@@ -49,14 +49,11 @@ export function ProjectItem({
         </Badge>
       )}
       <div className="absolute inset-x-0 bottom-0 z-20 space-y-3 p-4">
-        <div>
-          <Heading level={4} className="text-white">
+        <div className="space-y-1">
+          <Heading level={4} className="mb-0 text-white">
             {title}
           </Heading>
-          <time
-            dateTime={launchedAt}
-            className="text-xs text-white/70"
-          >
+          <time dateTime={launchedAt} className="text-xs text-white/70">
             {format(new Date(launchedAt), "MMM d, yyyy")}
           </time>
         </div>
