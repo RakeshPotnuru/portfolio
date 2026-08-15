@@ -1,0 +1,21 @@
+[build]
+command = "pnpm build"
+publish = "dist"
+
+# The four browser image tools (and their /tools index) were removed during
+# the Gatsby -> Astro migration. 301s preserve any inbound links / search
+# rankings rather than letting them 404. force = true is required — without
+# it Netlify would prefer a matching static file over the redirect, and
+# these paths no longer exist as static output at all, but omitting it here
+# is a common footgun so it's set explicitly.
+[[redirects]]
+from = "/tools/*"
+to = "/"
+status = 301
+force = true
+
+[[redirects]]
+from = "/tools"
+to = "/"
+status = 301
+force = true

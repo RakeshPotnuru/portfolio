@@ -1,6 +1,6 @@
 {
   "recommendations": [
-    "graphql.vscode-graphql",
+    "astro-build.astro-vscode",
     "esbenp.prettier-vscode",
     "bradlc.vscode-tailwindcss"
   ]

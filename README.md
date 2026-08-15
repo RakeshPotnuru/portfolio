@@ -1,49 +1,38 @@
-<p align="center">
-  <a href="https://www.gatsbyjs.com/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts">
-    <img alt="Gatsby" src="https://www.gatsbyjs.com/Gatsby-Monogram.svg" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  Gatsby Minimal TypeScript Starter
-</h1>
+# itsrakesh.com
 
-## 🚀 Quick start
+Rakesh Potnuru's portfolio site — blog, projects, snippets, and about pages, statically
+generated with [Astro](https://astro.build) and content sourced from [Contentful](https://www.contentful.com).
 
-1.  **Create a Gatsby site.**
+## Stack
 
-    Use the Gatsby CLI to create a new site, specifying the minimal TypeScript starter.
+- **Astro** for routing, static site generation, and the content layer
+- **React** for the handful of interactive pieces (contact form, subscribe form, project
+  carousel/video, donation dialog) — everything else ships zero JavaScript
+- **Tailwind CSS v4** + [shadcn/ui](https://ui.shadcn.com) primitives
+- **Contentful** as the CMS, loaded at build time via a custom [Content Layer](https://docs.astro.build/en/guides/content-collections/) loader (`src/loaders/contentful.ts`)
 
-    ```shell
-    # create a new Gatsby site using the minimal TypeScript starter
-    npm init gatsby -- -ts
-    ```
+## Local development
 
-2.  **Start developing.**
+```bash
+pnpm install
+```
 
-    Navigate into your new site’s directory and start it up.
+Copy `.env.example` to `.env.development` and fill in:
 
-    ```shell
-    cd my-gatsby-site/
-    npm run develop
-    ```
+| Variable | Purpose |
+|---|---|
+| `CONTENTFUL_SPACE_ID` / `CONTENTFUL_ACCESS_TOKEN` | Content Delivery API access, read at build time |
+| `PUBLIC_BACKEND_URL` | Backend that receives contact-form and subscribe submissions |
+| `GA_MEASUREMENT_ID` | Google Analytics; analytics is skipped entirely when unset |
+| `CLOUDINARY_CLOUD_NAME` | Serves blog post cover images |
 
-3.  **Open the code and start customizing!**
+```bash
+pnpm dev        # dev server on :3000
+pnpm build      # static build to dist/
+pnpm preview    # serve the production build locally
+pnpm typecheck  # astro check
+```
 
-    Your site is now running at http://localhost:8000!
+## Deployment
 
-    Edit `src/pages/index.tsx` to see your site update in real-time!
-
-4.  **Learn more**
-
-    - [Documentation](https://www.gatsbyjs.com/docs/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-    - [Tutorials](https://www.gatsbyjs.com/docs/tutorial/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-    - [Guides](https://www.gatsbyjs.com/docs/how-to/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-    - [API Reference](https://www.gatsbyjs.com/docs/api-reference/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-    - [Plugin Library](https://www.gatsbyjs.com/plugins?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-    - [Cheat Sheet](https://www.gatsbyjs.com/docs/cheat-sheet/?utm_source=starter&utm_medium=readme&utm_campaign=minimal-starter-ts)
-
-## 🚀 Quick start (Netlify)
-
-Deploy this starter with one click on [Netlify](https://app.netlify.com/signup):
-
-[<img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify" />](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-minimal-ts)
+Deployed on Netlify (`netlify.toml`); build command `pnpm build`, publish directory `dist`.
