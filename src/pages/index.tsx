@@ -18,7 +18,6 @@ export default function HomePage({
       <Hero />
       <RecentProjects projects={data.allContentfulProject} />
       <LatestBlogPosts nodes={data.allContentfulBlogPost.nodes} />
-      {/* <ExploreTools /> */}
       <LatestSnippets nodes={data.allContentfulSnippet.nodes} />
       <WhyHireMe />
     </Layout>
