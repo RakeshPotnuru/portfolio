@@ -22,7 +22,7 @@ const { title, image, slug, url, tags, launchedAt } = Astro.props;
 const href = `${siteConfig.pages.projects.link}/${slug}`;
 ---
 
-<article class="group relative isolate block aspect-[3/2] overflow-hidden rounded-xl bg-muted">
+<article class="not-prose group relative isolate block aspect-[3/2] overflow-hidden rounded-xl bg-muted">
   <a href={href} aria-label={`Learn more about ${title}`} class="absolute inset-0 z-10"></a>
   {
     image && (
