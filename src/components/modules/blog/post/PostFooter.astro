@@ -3,7 +3,7 @@ import { getEntries } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 
 import CommentBox from "@/components/common/CommentBox.astro";
-import DonationBox from "@/components/common/DonationBox";
+import DonationBox from "@/components/common/DonationBox.astro";
 import { Heading } from "@/components/ui/heading";
 
 import PostItem from "./PostItem.astro";
@@ -19,7 +19,7 @@ const recommended = post.data.recommendedPosts.length
 ---
 
 <div class="not-prose space-y-16">
-  <DonationBox client:visible />
+  <DonationBox />
   <CommentBox />
   {
     recommended.length > 0 && (

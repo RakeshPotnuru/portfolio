@@ -4,7 +4,7 @@ import { getCollection, render } from "astro:content";
 import Base from "@/layouts/Base.astro";
 import CodeEnhancer from "@/components/common/CodeEnhancer.astro";
 import CommentBox from "@/components/common/CommentBox.astro";
-import DonationBox from "@/components/common/DonationBox";
+import DonationBox from "@/components/common/DonationBox.astro";
 import { Heading } from "@/components/ui/heading";
 import { siteConfig } from "@/config/site";
 
@@ -31,7 +31,7 @@ const { Content } = await render(snippet);
     <Content />
     <hr />
     <div class="not-prose space-y-16">
-      <DonationBox client:visible />
+      <DonationBox />
       <CommentBox />
     </div>
   </article>
