@@ -71,7 +71,7 @@ export default function Contact() {
     }
 
     try {
-      const response = await fetch(`${process.env.GATSBY_BACKEND_URL}/send`, {
+      const response = await fetch(`${import.meta.env.PUBLIC_BACKEND_URL}/send`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -55,7 +55,7 @@ export default function Subscribe({
 
     try {
       const response = await fetch(
-        `${process.env.GATSBY_BACKEND_URL}/subscribe`,
+        `${import.meta.env.PUBLIC_BACKEND_URL}/subscribe`,
         {
           method: "POST",
           headers: {
