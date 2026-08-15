@@ -36,7 +36,14 @@ const wasUpdated =
     )
   }
   <Row className="gap-4">
-    <Image src={avatar} alt="Rakesh Potnuru" width={50} height={50} class="rounded-full bg-primary/90 not-prose" />
+    <Image
+      src={avatar}
+      alt="Rakesh Potnuru"
+      width={50}
+      height={50}
+      densities={[1, 2, 3]}
+      class="rounded-full bg-primary/90"
+    />
     <Col className="items-start">
       <span>
         <span class="text-sm italic">written by</span> {siteConfig.author}

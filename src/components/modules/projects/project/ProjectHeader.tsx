@@ -1,5 +1,5 @@
 import Autoplay from "embla-carousel-autoplay";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 
 import Center from "@/components/ui/center";
@@ -26,7 +26,15 @@ function ClientOnlyPlayer(props: { url: string }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
-  return <ReactPlayer url={props.url} width={"100%"} height={"100%"} controls />;
+  return (
+    <ReactPlayer
+      src={props.url}
+      width={"100%"}
+      height={"100%"}
+      controls
+      style={{ borderRadius: 12, overflow: "hidden" }}
+    />
+  );
 }
 
 export default function ProjectHeader({ images, videoDemoUrl }: Props) {

@@ -16,7 +16,10 @@ export async function getStaticPaths() {
 }
 
 const { series } = Astro.props;
-const posts = series.data.posts.length ? await getEntries(series.data.posts) : [];
+const allPosts = series.data.posts.length ? await getEntries(series.data.posts) : [];
+const posts = allPosts.sort(
+  (a, b) => new Date(b.data.publishedAt!).getTime() - new Date(a.data.publishedAt!).getTime()
+);
 ---
 
 <Base

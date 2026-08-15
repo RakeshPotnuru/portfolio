@@ -11,7 +11,8 @@ import { Button } from "@/components/ui/reusables/button";
 <Button
   id="scroll-to-top"
   size={"icon"}
-  className="rounded-full fixed bottom-4 right-4 bg-chart-2 text-background shadow-md shadow-chart-2 hover:bg-chart-2 hover:opacity-90 z-50 hidden"
+  className="!rounded-full fixed bottom-4 right-4 !bg-chart-2 !text-background !shadow-md !shadow-chart-2 hover:!bg-chart-2 hover:!opacity-90 z-50"
+  style={{ display: "none" }}
 >
   <Icons.Up />
 </Button>
@@ -20,7 +21,7 @@ import { Button } from "@/components/ui/reusables/button";
   const button = document.getElementById("scroll-to-top");
 
   const toggleVisibility = () => {
-    button?.classList.toggle("hidden", window.scrollY <= 300);
+    if (button) button.style.display = window.scrollY <= 300 ? "none" : "flex";
   };
 
   button?.addEventListener("click", () => {

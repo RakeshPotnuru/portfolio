@@ -5,7 +5,10 @@ import Base from "@/layouts/Base.astro";
 import ProjectsList from "@/components/modules/projects/ProjectsList.astro";
 import { siteConfig } from "@/config/site";
 
-const projects = await getCollection("projects");
+const allProjects = await getCollection("projects");
+const projects = allProjects.sort(
+  (a, b) => new Date(b.data.launchedAt).getTime() - new Date(a.data.launchedAt).getTime()
+);
 const technologies = await getCollection("technologies");
 ---
 

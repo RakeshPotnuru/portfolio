@@ -22,7 +22,7 @@ import { siteConfig } from "@/config/site";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is too short").max(120, "Name is too long"),
-  email: z.string().email(),
+  email: z.email(),
   message: z
     .string()
     .min(5, "Message is too short")

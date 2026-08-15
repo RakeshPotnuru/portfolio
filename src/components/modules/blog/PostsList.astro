@@ -12,8 +12,13 @@ interface Props {
 }
 
 const { posts } = Astro.props;
-// Featured-first, same ordering Gatsby's posts-list.tsx produced.
-const ordered = [...posts.filter((p) => p.data.isFeatured), ...posts.filter((p) => !p.data.isFeatured)];
+const byDate = (a: CollectionEntry<"posts">, b: CollectionEntry<"posts">) =>
+  new Date(b.data.publishedAt!).getTime() - new Date(a.data.publishedAt!).getTime();
+// Featured-first, same ordering Gatsby's posts-list.tsx produced, sorted by date descending within each group.
+const ordered = [
+  ...posts.filter((p) => p.data.isFeatured).sort(byDate),
+  ...posts.filter((p) => !p.data.isFeatured).sort(byDate),
+];
 ---
 
 <div class="space-y-8">

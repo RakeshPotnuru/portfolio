@@ -44,12 +44,12 @@ const sortedTypes = [...technologiesByType.keys()].sort((a, b) => {
 <div class="space-y-16">
   <Row className="justify-between">
     <Heading level={1}>Projects</Heading>
-    <Button id="projects-filter-toggle" variant={"secondary"} data-active="true">
+    <Button id="projects-filter-toggle" variant={"secondary"} data-active="false">
       <Icons.Filter /> Filter
     </Button>
   </Row>
   <div class="space-y-6">
-    <div id="projects-filter-panel" class="space-y-4">
+    <div id="projects-filter-panel" class="space-y-4 hidden">
       <Heading level={6}>Filter</Heading>
       <Button id="projects-filter-reset" variant={"outline"} size={"sm"} className="text-sm hidden">
         All ({projects.length})

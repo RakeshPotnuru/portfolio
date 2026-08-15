@@ -4,8 +4,9 @@ import { format, parseISO } from "date-fns";
 import { Icons } from "@/assets/icons";
 import { Heading } from "@/components/ui/heading";
 import { Badge } from "@/components/ui/reusables/badge";
-import { Button } from "@/components/ui/reusables/button";
+import { buttonVariants } from "@/components/ui/reusables/button";
 import { siteConfig } from "@/config/site";
+import { cn } from "@/utils/cn";
 import { ctf, ctfSrcSet } from "@/utils/images";
 import type { PlainAsset } from "@/loaders/transforms";
 
@@ -22,7 +23,7 @@ const { title, image, slug, url, tags, launchedAt } = Astro.props;
 const href = `${siteConfig.pages.projects.link}/${slug}`;
 ---
 
-<article class="not-prose group relative isolate block aspect-[3/2] overflow-hidden rounded-xl bg-muted">
+<article class="group relative isolate block aspect-[3/2] overflow-hidden rounded-xl bg-muted">
   <a href={href} aria-label={`Learn more about ${title}`} class="absolute inset-0 z-10"></a>
   {
     image && (
@@ -55,16 +56,17 @@ const href = `${siteConfig.pages.projects.link}/${slug}`;
       </time>
     </div>
     <div class="flex gap-2">
-      <Button asChild size={"sm"} variant={"secondary"} className="backdrop-blur-sm">
-        <a href={href}>
-          <Icons.Read /> Learn More
-        </a>
-      </Button>
-      <Button asChild size={"sm"} variant={"secondary"} className="backdrop-blur-sm">
-        <a href={url} target="_blank" rel="noreferrer">
-          <Icons.ExternalLink /> Visit
-        </a>
-      </Button>
+      <a href={href} class={cn(buttonVariants({ size: "sm", variant: "secondary" }), "backdrop-blur-sm")}>
+        <Icons.Read /> Learn More
+      </a>
+      <a
+        href={url}
+        target="_blank"
+        rel="noreferrer"
+        class={cn(buttonVariants({ size: "sm", variant: "secondary" }), "backdrop-blur-sm")}
+      >
+        <Icons.ExternalLink /> Visit
+      </a>
     </div>
   </div>
 </article>

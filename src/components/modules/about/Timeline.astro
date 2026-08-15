@@ -12,18 +12,15 @@ interface Props {
 
 const { timeline } = Astro.props;
 
-// Gatsby's allContentfulTimeline(sort: {endDate: DESC}).group(field: {type:
-// SELECT}) groups by first appearance in that sorted list; the old
-// Timeline component then called group.reverse() on the groups (not the
-// entries within them). The loader already sorts by -fields.endDate, so
-// grouping by insertion order here and reversing the group list reproduces
-// the same section order.
 const groups = new Map<string, CollectionEntry<"timeline">[]>();
 for (const entry of timeline) {
   if (!groups.has(entry.data.type)) groups.set(entry.data.type, []);
   groups.get(entry.data.type)!.push(entry);
 }
-const orderedGroups = [...groups.entries()].reverse();
+const typeOrder = ["Work Experience", "Volunteering", "Education"];
+const orderedGroups = [...groups.entries()].sort(
+  (a, b) => typeOrder.indexOf(a[0]) - typeOrder.indexOf(b[0])
+);
 ---
 
 {

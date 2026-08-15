@@ -84,6 +84,10 @@
     @apply bg-background text-foreground;
     font-family: "Poppins", sans-serif;
   }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
 }
 
 @keyframes spin {
@@ -112,8 +116,7 @@
   }
 }
 
-iframe,
-.react-player__preview {
+iframe {
   @apply rounded-xl;
 }
 
@@ -121,23 +124,31 @@ a {
   cursor: pointer;
 }
 
-article {
+/* Opt-in, not `article { ... }` — an <article> is also used for plain UI
+   (ProjectItem's card, the wrapper around ProjectHeader/ProjectBody) that
+   has no business inheriting prose's default spacing on every img/heading
+   it happens to contain. Found the hard way: prose's default ~40px img
+   margin was pushing/clipping images in a project card, tech-stack badge
+   icons, and the project carousel, none of which are actual document
+   content. Apply this class directly to the element wrapping real
+   rendered content (markdown Content, a rich-text set:html div) instead. */
+.prose-content {
   @apply prose md:prose-lg lg:prose-xl prose-invert prose-img:rounded-xl prose-a:text-primary prose-pre:p-0;
 }
 
 /* Shiki (build-time) code blocks replace react-syntax-highlighter's runtime
    line numbers / max-height in Phase 6 — defined here so it lands with the
    rest of the theme instead of arriving piecemeal later. */
-article pre.astro-code {
+.prose-content pre.astro-code {
   max-height: 30rem;
   overflow: auto;
 }
 
-article pre.astro-code code {
+.prose-content pre.astro-code code {
   counter-reset: line;
 }
 
-article pre.astro-code .line::before {
+.prose-content pre.astro-code .line::before {
   counter-increment: line;
   content: counter(line);
   @apply mr-4 inline-block w-8 select-none text-right text-muted-foreground/60;

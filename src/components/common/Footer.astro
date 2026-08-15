@@ -10,7 +10,7 @@ const referringSite = Astro.url.href;
 ---
 
 <footer class="bg-black p-[7%]">
-  <Col className="space-y-4">
+  <Col className="space-y-6">
     <p class="text-6xl font-bold text-center">Let's Connect</p>
     <Row className="gap-2">
       <SocialItems />
@@ -24,7 +24,7 @@ const referringSite = Astro.url.href;
       referring_site={referringSite}
       client:visible
     />
-    <p class="text-muted-foreground">
+    <p class="text-muted-foreground mt-6">
       &copy; 2021 - {new Date().getFullYear()} itsrakesh. v2.
     </p>
   </Col>

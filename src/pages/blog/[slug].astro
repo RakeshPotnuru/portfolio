@@ -27,9 +27,11 @@ const image = post.data.cover[0];
   ogType="article"
   mainClass="justify-center flex gap-10"
 >
-  <article>
+  <article class="max-w-[816px]">
     <PostHeader post={post} />
-    <Content />
+    <div class="prose-content">
+      <Content />
+    </div>
     <hr />
     <PostFooter post={post} />
   </article>

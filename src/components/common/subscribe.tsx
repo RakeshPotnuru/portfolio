@@ -20,7 +20,7 @@ import {
 import { Input } from "../ui/reusables/input";
 
 const formSchema = z.object({
-  email: z.string().email(),
+  email: z.email(),
 });
 
 export default function Subscribe({

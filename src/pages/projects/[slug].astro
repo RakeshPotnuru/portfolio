@@ -22,7 +22,7 @@ const image = project.data.images[0];
   ogType="article"
   mainClass="justify-center flex"
 >
-  <article class="flex flex-col gap-10">
+  <article class="flex flex-col gap-10 max-w-[816px]">
     <ProjectHeader images={project.data.images} videoDemoUrl={project.data.videoDemoUrl} client:load />
     <ProjectBody project={project} />
   </article>

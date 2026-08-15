@@ -52,5 +52,5 @@ const techStack = project.data.techStack.length ? await getEntries(project.data.
       {format(parseISO(launchedAt), "MMM d, yyyy")}
     </time>
   </Row>
-  {body && <div class="space-y-2 whitespace-pre-wrap" set:html={renderRichText(body)} />}
+  {body && <div class="prose-content space-y-2 whitespace-pre-wrap" set:html={renderRichText(body)} />}
 </Col>

@@ -24,13 +24,15 @@ const { Content } = await render(snippet);
   ogType="article"
   mainClass="justify-center flex"
 >
-  <article>
+  <article class="max-w-[816px]">
     <Heading level={1} className="text-foreground leading-tight">
       {snippet.data.title}
     </Heading>
-    <Content />
+    <div class="prose-content">
+      <Content />
+    </div>
     <hr />
-    <div class="not-prose space-y-16">
+    <div class="space-y-16">
       <DonationBox />
       <CommentBox />
     </div>
