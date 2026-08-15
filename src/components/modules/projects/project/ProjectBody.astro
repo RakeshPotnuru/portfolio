@@ -1,0 +1,56 @@
+---
+import { format, parseISO } from "date-fns";
+import { getEntries } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+import { Icons } from "@/assets/icons";
+import Col from "@/components/ui/col";
+import { Heading } from "@/components/ui/heading";
+import { Badge } from "@/components/ui/reusables/badge";
+import { Button } from "@/components/ui/reusables/button";
+import Row from "@/components/ui/row";
+import { ctf } from "@/utils/images";
+import { renderRichText } from "@/utils/rich-text";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const { project } = Astro.props;
+const { title, url, launchedAt, body } = project.data;
+const techStack = project.data.techStack.length ? await getEntries(project.data.techStack) : [];
+---
+
+<Col className="items-start space-y-8">
+  <Row className="justify-between w-full items-start flex-col md:flex-row gap-4">
+    <Heading level={1}>{title}</Heading>
+    <a href={url} target="_blank" class="w-full md:w-auto" rel="noreferrer">
+      <Button variant={"secondary"} className="w-full">
+        <Icons.ExternalLink />
+        {new URL(url).hostname.includes("github") ? "Source Code" : "Visit"}
+      </Button>
+    </a>
+  </Row>
+  {
+    techStack.length > 0 && (
+      <Row className="flex-wrap gap-2 text-muted-foreground">
+        Tech Stack:
+        {techStack.map((tech) => (
+          <Badge variant={"secondary"} className="text-sm">
+            {tech.data.icon && (
+              <img src={ctf(tech.data.icon.url, { w: 32, h: 32, fit: "fill" })} alt={tech.data.title} class="w-4 h-4 mr-1" />
+            )}
+            {tech.data.title}
+          </Badge>
+        ))}
+      </Row>
+    )
+  }
+  <Row className="flex-wrap gap-2 text-muted-foreground">
+    Launched/Completed At:
+    <time datetime={launchedAt} class="text-foreground">
+      {format(parseISO(launchedAt), "MMM d, yyyy")}
+    </time>
+  </Row>
+  {body && <div class="space-y-2 whitespace-pre-wrap" set:html={renderRichText(body)} />}
+</Col>

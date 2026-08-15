@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import { ctf, ctfSrcSet } from "@/utils/images";
+
+interface Props {
+  series: CollectionEntry<"series">;
+  postCount: number;
+}
+
+const { series, postCount } = Astro.props;
+const { title, cover, description } = series.data;
+---
+
+<aside class="md:basis-1/3 space-y-4 md:sticky md:top-4 md:h-full">
+  {
+    cover && (
+      <img
+        src={ctf(cover.url, { w: 600 })}
+        srcset={ctfSrcSet(cover.url, [400, 600, 900])}
+        sizes="(max-width: 768px) 100vw, 33vw"
+        alt={title}
+        class="rounded-xl w-full"
+      />
+    )
+  }
+  <h1 class="text-xl font-semibold">{title}</h1>
+  <p class="text-sm">{description}</p>
+  <span class="text-sm text-muted-foreground">Series ・ {postCount} Posts</span>
+</aside>
