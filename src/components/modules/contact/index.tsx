@@ -56,7 +56,13 @@ export default function Contact() {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+  const onSubmit = async () => {
+    // zodResolver (zod v4 + @hookform/resolvers v5) validates correctly but
+    // hands back an empty `values` object on a successful parse in this
+    // build, so the `data` argument handleSubmit would normally pass here
+    // can't be trusted. form.getValues() reads the live, bound form state
+    // directly and isn't affected by that resolver bug.
+    const data = form.getValues();
     setIsLoading(true);
 
     const isDisposable = await isDisposableEmail(data.email);
