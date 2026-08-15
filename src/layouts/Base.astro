@@ -1,0 +1,102 @@
+---
+import "@fontsource/poppins";
+import "@fontsource/poppins/500.css";
+import "@fontsource/poppins/600.css";
+import "@fontsource/poppins/700.css";
+import "@/styles/global.css";
+
+import Seo from "@/components/common/Seo.astro";
+import Nav from "@/components/common/Nav.astro";
+import ScrollToTop from "@/components/common/ScrollToTop.astro";
+import Cta from "@/components/common/Cta.astro";
+import Footer from "@/components/common/Footer.astro";
+import BreakpointViewer from "@/components/common/BreakpointViewer.astro";
+import { Toaster } from "@/components/ui/reusables/sonner";
+import { siteMetadata } from "@/config/site";
+import { cn } from "@/utils/cn";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  imageUrl?: string;
+  pathname?: string;
+  canonicalUrl?: string;
+  ogType?: "website" | "article";
+  /** Applied to <main>, matching the old Layout component's `className` prop. */
+  mainClass?: string;
+}
+
+const {
+  title,
+  description,
+  image,
+  imageUrl,
+  pathname,
+  canonicalUrl,
+  ogType,
+  mainClass,
+} = Astro.props;
+
+const gaId = import.meta.env.GA_MEASUREMENT_ID;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" />
+    <link rel="manifest" href="/manifest.webmanifest" crossorigin="anonymous" />
+    <link rel="alternate" type="application/rss+xml" title={siteMetadata.title} href="/rss.xml" />
+    <Seo
+      title={title}
+      description={description}
+      image={image}
+      imageUrl={imageUrl}
+      pathname={pathname}
+      canonicalUrl={canonicalUrl}
+      ogType={ogType}
+    />
+    {
+      gaId && (
+        <>
+          <link rel="preconnect" href="https://www.googletagmanager.com" />
+          <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+          <script is:inline define:vars={{ gaId }}>
+            {
+              // Mirrors gatsby-plugin-google-gtag's config: respectDNT + cookie_expires: 0.
+              // Astro is a plain MPA, so every navigation is a fresh document load —
+              // the config() call below fires its own page_view, with no manual
+              // route-change tracking needed the way Gatsby's SPA router required.
+            }
+            var dnt = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+            if (dnt !== "1" && dnt !== "yes") {
+              var script = document.createElement("script");
+              script.async = true;
+              script.src = "https://www.googletagmanager.com/gtag/js?id=" + gaId;
+              document.head.appendChild(script);
+              window.dataLayer = window.dataLayer || [];
+              function gtag() {
+                window.dataLayer.push(arguments);
+              }
+              gtag("js", new Date());
+              gtag("config", gaId, { cookie_expires: 0 });
+            }
+          </script>
+        </>
+      )
+    }
+  </head>
+  <body>
+    <Nav />
+    <ScrollToTop />
+    <main class={cn("min-h-dvh antialiased px-[10%] py-8", mainClass)}>
+      <slot />
+    </main>
+    <Cta />
+    <Footer />
+    <Toaster client:idle />
+    {import.meta.env.DEV && <BreakpointViewer />}
+  </body>
+</html>

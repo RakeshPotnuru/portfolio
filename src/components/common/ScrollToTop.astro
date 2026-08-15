@@ -1,0 +1,32 @@
+---
+// Gatsby's version was a React component (useState/useEffect on window.scrollY).
+// The behavior is a plain scroll listener toggling a class, so it becomes a
+// ~10-line inline script instead of a hydrated island; the button markup
+// stays the real shadcn <Button> so it renders identically, just with zero JS
+// shipped for the component that isn't the scroll behavior itself.
+import { Icons } from "@/assets/icons";
+import { Button } from "@/components/ui/reusables/button";
+---
+
+<Button
+  id="scroll-to-top"
+  size={"icon"}
+  className="rounded-full fixed bottom-4 right-4 bg-chart-2 text-background shadow-md shadow-chart-2 hover:bg-chart-2 hover:opacity-90 z-50 hidden"
+>
+  <Icons.Up />
+</Button>
+
+<script>
+  const button = document.getElementById("scroll-to-top");
+
+  const toggleVisibility = () => {
+    button?.classList.toggle("hidden", window.scrollY <= 300);
+  };
+
+  button?.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  window.addEventListener("scroll", toggleVisibility);
+  toggleVisibility();
+</script>

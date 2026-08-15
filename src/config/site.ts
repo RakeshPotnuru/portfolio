@@ -1,3 +1,15 @@
+// Formerly gatsby-config.ts's `siteMetadata`, read there via useStaticQuery.
+export const siteMetadata = {
+  title: "itsrakesh - Rakesh Potnuru",
+  description:
+    "I'm Rakesh - a software engineer, tech enthusiast and product creator with expertise in building innovative tools and products.",
+  siteUrl: "https://itsrakesh.com",
+  feedUrl: "https://itsrakesh.com/rss.xml",
+  twitterUsername: "@rakesh_at_tweet",
+  image: "/og.png",
+  author: "Rakesh Potnuru",
+};
+
 export const siteConfig = {
   author: "Rakesh Potnuru",
   url: "https://itsrakesh.com",
