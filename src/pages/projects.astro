@@ -1,0 +1,18 @@
+---
+import { getCollection } from "astro:content";
+
+import Base from "@/layouts/Base.astro";
+import ProjectsList from "@/components/modules/projects/ProjectsList.astro";
+import { siteConfig } from "@/config/site";
+
+const projects = await getCollection("projects");
+const technologies = await getCollection("technologies");
+---
+
+<Base
+  title={siteConfig.pages.projects.title}
+  description={siteConfig.pages.projects.description}
+  pathname={siteConfig.pages.projects.link}
+>
+  <ProjectsList projects={projects} technologies={technologies} />
+</Base>

@@ -1,0 +1,70 @@
+---
+import { format, parseISO } from "date-fns";
+
+import { Icons } from "@/assets/icons";
+import { Heading } from "@/components/ui/heading";
+import { Badge } from "@/components/ui/reusables/badge";
+import { Button } from "@/components/ui/reusables/button";
+import { siteConfig } from "@/config/site";
+import { ctf, ctfSrcSet } from "@/utils/images";
+import type { PlainAsset } from "@/loaders/transforms";
+
+interface Props {
+  title: string;
+  slug: string;
+  url: string;
+  image: PlainAsset | null;
+  tags?: string[];
+  launchedAt: string;
+}
+
+const { title, image, slug, url, tags, launchedAt } = Astro.props;
+const href = `${siteConfig.pages.projects.link}/${slug}`;
+---
+
+<article class="group relative isolate block aspect-[3/2] overflow-hidden rounded-xl bg-muted">
+  <a href={href} aria-label={`Learn more about ${title}`} class="absolute inset-0 z-10"></a>
+  {
+    image && (
+      <img
+        src={ctf(image.url, { w: 800, h: 533, fit: "fill" })}
+        srcset={ctfSrcSet(image.url, [400, 800, 1200], { ratio: 2 / 3, fit: "fill" })}
+        sizes="(max-width: 768px) 100vw, 50vw"
+        alt={title}
+        loading="lazy"
+        decoding="async"
+        class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+    )
+  }
+  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+  {
+    tags && tags.length > 0 && (
+      <Badge variant={"secondary"} className="absolute top-3 right-3 z-20 shadow-sm backdrop-blur-sm">
+        {tags[0]}
+      </Badge>
+    )
+  }
+  <div class="absolute inset-x-0 bottom-0 z-20 space-y-3 p-4">
+    <div class="space-y-1">
+      <Heading level={4} className="mb-0 text-white">
+        {title}
+      </Heading>
+      <time datetime={launchedAt} class="text-xs text-white/70">
+        {format(parseISO(launchedAt), "MMM d, yyyy")}
+      </time>
+    </div>
+    <div class="flex gap-2">
+      <Button asChild size={"sm"} variant={"secondary"} className="backdrop-blur-sm">
+        <a href={href}>
+          <Icons.Read /> Learn More
+        </a>
+      </Button>
+      <Button asChild size={"sm"} variant={"secondary"} className="backdrop-blur-sm">
+        <a href={url} target="_blank" rel="noreferrer">
+          <Icons.ExternalLink /> Visit
+        </a>
+      </Button>
+    </div>
+  </div>
+</article>

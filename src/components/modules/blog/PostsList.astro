@@ -1,0 +1,46 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import { Icons } from "@/assets/icons";
+import { Heading } from "@/components/ui/heading";
+import { Input } from "@/components/ui/reusables/input";
+
+import PostItem from "./post/PostItem.astro";
+
+interface Props {
+  posts: CollectionEntry<"posts">[];
+}
+
+const { posts } = Astro.props;
+// Featured-first, same ordering Gatsby's posts-list.tsx produced.
+const ordered = [...posts.filter((p) => p.data.isFeatured), ...posts.filter((p) => !p.data.isFeatured)];
+---
+
+<div class="space-y-8">
+  <Heading level={3}>Posts</Heading>
+  <div class="relative">
+    <Icons.Search className="absolute top-3 right-3 text-muted-foreground" />
+    <Input id="post-search" placeholder="Search posts..." />
+  </div>
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="posts-grid">
+    {
+      ordered.map((post) => (
+        <div data-search={`${post.data.title} ${post.data.excerpt ?? ""}`.toLowerCase()}>
+          <PostItem {...post.data} />
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  const input = document.getElementById("post-search") as HTMLInputElement | null;
+  const grid = document.getElementById("posts-grid");
+
+  input?.addEventListener("input", () => {
+    const term = input.value.toLowerCase();
+    grid?.querySelectorAll<HTMLElement>("[data-search]").forEach((card) => {
+      card.hidden = !(card.dataset.search ?? "").includes(term);
+    });
+  });
+</script>

@@ -1,0 +1,79 @@
+---
+import { Image } from "astro:assets";
+
+import avatar from "@/images/avatar.png";
+import { Icons } from "@/assets/icons";
+import SocialItems from "@/components/common/SocialItems.astro";
+import Col from "@/components/ui/col";
+import { Button } from "@/components/ui/reusables/button";
+import Row from "@/components/ui/row";
+import { siteConfig } from "@/config/site";
+---
+
+<Row className="lg:justify-between justify-center">
+  <Col className="gap-6 lg:items-start">
+    <Col className="gap-2 lg:items-start">
+      <p>Hey!</p>
+      <h2 class="text-5xl font-medium">
+        I'm <span class="text-primary">Rakesh</span>
+      </h2>
+      <div id="hero-typing" class="text-chart-6 text-4xl font-medium typing"></div>
+    </Col>
+    <div>
+      <a href="/about">
+        <Button variant={"link"} className="h-max p-0 text-md">
+          Work Experience and more about me
+          <Icons.Right className="-ml-1" />
+        </Button>
+      </a>
+    </div>
+    <Row className="gap-2">
+      Follow me <SocialItems />
+    </Row>
+    <Row className="gap-4">
+      <a href={siteConfig.links.email}>
+        <Button className="shadow-lg h-12">
+          <Icons.Email /> Email Me
+        </Button>
+      </a>
+      <a href="/resume.pdf" target="_blank">
+        <Button variant={"outline"} className="border-primary h-12 shadow-primary shadow-lg">
+          <Icons.Download /> Resume
+        </Button>
+      </a>
+    </Row>
+  </Col>
+
+  <div class="hidden lg:block">
+    <Image src={avatar} alt="Rakesh Potnuru" width={500} height={500} class="rounded-full" />
+  </div>
+</Row>
+
+<script>
+  // Vanilla replacement for react-type-animation, matching its props from
+  // the old Hero: repeat: Infinity, deletionSpeed: 70, cursor: false (the
+  // blinking caret is the .typing::after CSS rule, untouched by this).
+  const words = ["Software Engineer", "Technical Writer", "Freelancer"];
+  const el = document.getElementById("hero-typing");
+  const TYPE_MS = 60;
+  const DELETE_MS = 70;
+  const PAUSE_MS = 1000;
+
+  async function loop() {
+    if (!el) return;
+    for (let i = 0; ; i = (i + 1) % words.length) {
+      const word = words[i];
+      for (let c = 1; c <= word.length; c++) {
+        el.textContent = word.slice(0, c);
+        await new Promise((r) => setTimeout(r, TYPE_MS));
+      }
+      await new Promise((r) => setTimeout(r, PAUSE_MS));
+      for (let c = word.length; c >= 0; c--) {
+        el.textContent = word.slice(0, c);
+        await new Promise((r) => setTimeout(r, DELETE_MS));
+      }
+    }
+  }
+
+  loop();
+</script>

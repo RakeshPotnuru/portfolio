@@ -1,0 +1,23 @@
+---
+import { getCollection } from "astro:content";
+
+import Base from "@/layouts/Base.astro";
+import SeriesList from "@/components/modules/blog/SeriesList.astro";
+import { Heading } from "@/components/ui/heading";
+import { siteConfig } from "@/config/site";
+
+const series = await getCollection("series");
+---
+
+<Base
+  title={siteConfig.pages.series.title}
+  description={siteConfig.pages.series.description}
+  pathname={siteConfig.pages.series.link}
+  mainClass="space-y-16"
+>
+  <Heading level={1}>Blog</Heading>
+  <div class="space-y-8">
+    <Heading level={3}>Series</Heading>
+    <SeriesList series={series} />
+  </div>
+</Base>

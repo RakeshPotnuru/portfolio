@@ -1,0 +1,72 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import { Heading } from "@/components/ui/heading";
+import { Badge } from "@/components/ui/reusables/badge";
+import { ctf } from "@/utils/images";
+import { renderRichText } from "@/utils/rich-text";
+
+interface Props {
+  timeline: CollectionEntry<"timeline">[];
+}
+
+const { timeline } = Astro.props;
+
+// Gatsby's allContentfulTimeline(sort: {endDate: DESC}).group(field: {type:
+// SELECT}) groups by first appearance in that sorted list; the old
+// Timeline component then called group.reverse() on the groups (not the
+// entries within them). The loader already sorts by -fields.endDate, so
+// grouping by insertion order here and reversing the group list reproduces
+// the same section order.
+const groups = new Map<string, CollectionEntry<"timeline">[]>();
+for (const entry of timeline) {
+  if (!groups.has(entry.data.type)) groups.set(entry.data.type, []);
+  groups.get(entry.data.type)!.push(entry);
+}
+const orderedGroups = [...groups.entries()].reverse();
+---
+
+{
+  orderedGroups.map(([type, entries]) => (
+    <div class="space-y-8">
+      <Heading level={3}>{type}</Heading>
+      <ol class="relative border-s">
+        {entries.map(({ data }) => (
+          <li class="mb-10 ms-12">
+            <span class="absolute flex items-center justify-center rounded-full -start-8">
+              {data.logo && (
+                <img
+                  src={ctf(data.logo.url, { w: 64, h: 64, fit: "fill" })}
+                  alt={data.company}
+                  width="64"
+                  height="64"
+                  loading="lazy"
+                  decoding="async"
+                  class="rounded-full w-16 h-16 bg-background border object-cover"
+                />
+              )}
+            </span>
+            <p class="block mb-2 text-sm font-normal leading-none text-muted-foreground">
+              <time datetime={data.startDate}>{data.startDate}</time> -{" "}
+              {data.endDate ? <time datetime={data.endDate}>{data.endDate}</time> : "Present"}
+            </p>
+            <Heading level={4} className="mb-1">
+              {data.title}
+            </Heading>
+            <div class="flex flex-row items-center">
+              <p>{data.company}</p>
+              {data.tag && (
+                <Badge variant={"secondary"} className="ml-2">
+                  {data.tag}
+                </Badge>
+              )}
+            </div>
+            {data.description && (
+              <div class="space-y-2 whitespace-pre-wrap" set:html={renderRichText(data.description)} />
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  ))
+}

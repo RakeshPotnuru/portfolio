@@ -1,0 +1,45 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import { Heading } from "@/components/ui/heading";
+import { AspectRatio } from "@/components/ui/reusables/aspect-ratio";
+import { siteConfig } from "@/config/site";
+import { ctf, ctfSrcSet } from "@/utils/images";
+import { shortenText } from "@/utils/shorten-text";
+
+interface Props {
+  series: CollectionEntry<"series">[];
+}
+
+const { series } = Astro.props;
+---
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {
+    series.map(({ id, data }) => (
+      <a href={`${siteConfig.pages.series.link}/${id}`}>
+        <div class="rounded-xl border hover:opacity-80 h-full flex flex-col items-start">
+          <AspectRatio ratio={16 / 9} className="relative w-full">
+            {data.cover && (
+              <img
+                src={ctf(data.cover.url, { w: 800, h: 450, fit: "fill" })}
+                srcset={ctfSrcSet(data.cover.url, [400, 800, 1200], { ratio: 9 / 16, fit: "fill" })}
+                sizes="(max-width: 768px) 100vw, 33vw"
+                alt={data.title}
+                loading="lazy"
+                decoding="async"
+                class="rounded-t-xl h-full w-full object-cover"
+              />
+            )}
+          </AspectRatio>
+          <div class="space-y-2 p-4 items-start flex flex-col">
+            <Heading level={6}>{data.title}</Heading>
+            <p class="text-sm text-muted-foreground">
+              {shortenText(data.description ?? "", 160)}
+            </p>
+          </div>
+        </div>
+      </a>
+    ))
+  }
+</div>

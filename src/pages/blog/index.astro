@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+
+import Base from "@/layouts/Base.astro";
+import PostsList from "@/components/modules/blog/PostsList.astro";
+import SeriesList from "@/components/modules/blog/SeriesList.astro";
+import { Heading } from "@/components/ui/heading";
+import { Button } from "@/components/ui/reusables/button";
+import Row from "@/components/ui/row";
+import { siteConfig } from "@/config/site";
+
+const series = await getCollection("series");
+const posts = await getCollection("posts", ({ data }) => !!data.publishedAt);
+---
+
+<Base
+  title={siteConfig.pages.blog.title}
+  description={siteConfig.pages.blog.description}
+  pathname={siteConfig.pages.blog.link}
+  mainClass="space-y-16"
+>
+  <Heading level={1}>Blog</Heading>
+  <div class="space-y-8">
+    <Row className="justify-between">
+      <Heading level={3}>Series</Heading>
+      <a href={siteConfig.pages.series.link}>
+        <Button>View All</Button>
+      </a>
+    </Row>
+    <SeriesList series={series} />
+  </div>
+  <PostsList posts={posts} />
+</Base>

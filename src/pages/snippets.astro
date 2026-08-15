@@ -1,0 +1,17 @@
+---
+import { getCollection } from "astro:content";
+
+import Base from "@/layouts/Base.astro";
+import SnippetsList from "@/components/modules/snippets/SnippetsList.astro";
+import { siteConfig } from "@/config/site";
+
+const snippets = await getCollection("snippets");
+---
+
+<Base
+  title={siteConfig.pages.snippets.title}
+  description={siteConfig.pages.snippets.description}
+  pathname={siteConfig.pages.snippets.link}
+>
+  <SnippetsList snippets={snippets} />
+</Base>
