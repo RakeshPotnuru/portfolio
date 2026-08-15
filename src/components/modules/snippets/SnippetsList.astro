@@ -1,0 +1,44 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import { Icons } from "@/assets/icons";
+import { Heading } from "@/components/ui/heading";
+import { Input } from "@/components/ui/reusables/input";
+
+import SnippetItem from "./SnippetItem.astro";
+
+interface Props {
+  snippets: CollectionEntry<"snippets">[];
+}
+
+const { snippets } = Astro.props;
+---
+
+<div class="space-y-16">
+  <Heading level={1}>Snippets</Heading>
+  <div class="relative">
+    <Icons.Search className="absolute top-3 right-3 text-muted-foreground" />
+    <Input id="snippet-search" placeholder="Search snippets..." />
+  </div>
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="snippets-grid">
+    {
+      snippets.map((snippet) => (
+        <div data-search={`${snippet.data.title} ${snippet.data.description ?? ""}`.toLowerCase()}>
+          <SnippetItem {...snippet.data} />
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  const input = document.getElementById("snippet-search") as HTMLInputElement | null;
+  const grid = document.getElementById("snippets-grid");
+
+  input?.addEventListener("input", () => {
+    const term = input.value.toLowerCase();
+    grid?.querySelectorAll<HTMLElement>("[data-search]").forEach((card) => {
+      card.hidden = !(card.dataset.search ?? "").includes(term);
+    });
+  });
+</script>

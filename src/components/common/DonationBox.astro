@@ -1,0 +1,23 @@
+---
+import { siteConfig } from "@/config/site";
+import { Button } from "@/components/ui/reusables/button";
+import Row from "@/components/ui/row";
+
+import DonateViaUpi from "./DonateViaUpi";
+
+interface Props {
+  title?: string;
+}
+
+const { title } = Astro.props;
+---
+
+<Row className="justify-between rounded-xl bg-chart-6 p-8 text-black flex-col md:flex-row gap-4">
+  <p class="font-bold">{title || "Loved this post?"}</p>
+  <Row className="gap-2 flex-col md:flex-row">
+    <a href={siteConfig.links.donate} target="_blank" rel="noreferrer">
+      <Button variant={"secondary"}>🍕 Buy me a pizza</Button>
+    </a>
+    <DonateViaUpi client:visible />
+  </Row>
+</Row>

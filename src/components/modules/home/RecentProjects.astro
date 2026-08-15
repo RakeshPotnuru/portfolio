@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import { Heading } from "@/components/ui/heading";
+import { Button } from "@/components/ui/reusables/button";
+import Row from "@/components/ui/row";
+import { siteConfig } from "@/config/site";
+import ProjectItem from "@/components/modules/projects/project/ProjectItem.astro";
+
+interface Props {
+  projects: CollectionEntry<"projects">[];
+}
+
+const { projects } = Astro.props;
+---
+
+<div class="space-y-16">
+  <Row className="justify-between">
+    <Heading level={2}>Recent Projects</Heading>
+    <a href={siteConfig.pages.projects.link}>
+      <Button>View All</Button>
+    </a>
+  </Row>
+  <div class="gap-10 grid md:grid-cols-2">
+    {
+      projects.map((project) => (
+        <ProjectItem
+          title={project.data.title}
+          slug={project.id}
+          url={project.data.url}
+          image={project.data.images[0] ?? null}
+          launchedAt={project.data.launchedAt}
+        />
+      ))
+    }
+  </div>
+</div>

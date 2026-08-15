@@ -1,0 +1,31 @@
+---
+import { Image } from "astro:assets";
+
+import featured from "@/images/featured.jpeg";
+import { Heading } from "@/components/ui/heading";
+import { siteConfig } from "@/config/site";
+---
+
+<div class="space-y-8">
+  <Image src={featured} alt="Rakesh Potnuru skydive" class="rounded-xl" />
+  <Heading level={3}>Short Bio</Heading>
+  <p class="leading-loose">
+    Hi! Thanks for stopping by.
+    <br />
+    <br />
+    I'm Rakesh, a software engineer who builds products end-to-end and enjoys optimizing both codebases
+    and loadouts. I've worked on enterprise AI platforms, DeFi infrastructure, and creator tools, focusing
+    on performance, clarity, and systems that hold up under real-world use.
+    <br />
+    <br />
+    I like thinking in systems: clean architectures, thoughtful trade-offs, and interfaces that make complex
+    things feel obvious. When I'm not shipping software, I'm{" "}
+    <a href={siteConfig.links.psn} target="_blank" class="underline text-primary" rel="noreferrer">
+      gaming
+    </a>, which probably explains my obsession with feedback loops, latency, and making things feel responsive.
+    <br />
+    <br />
+    I enjoy building things people actually use, improving them iteratively, and knowing when to refactor…
+    and when to just ship.
+  </p>
+</div>

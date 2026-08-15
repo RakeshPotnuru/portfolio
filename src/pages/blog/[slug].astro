@@ -1,0 +1,42 @@
+---
+import { getCollection, render } from "astro:content";
+
+import Base from "@/layouts/Base.astro";
+import CodeEnhancer from "@/components/common/CodeEnhancer.astro";
+import PostHeader from "@/components/modules/blog/post/PostHeader.astro";
+import PostFooter from "@/components/modules/blog/post/PostFooter.astro";
+import PostSidebar from "@/components/modules/blog/post/PostSidebar.astro";
+import { siteConfig } from "@/config/site";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", ({ data }) => !!data.publishedAt);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const image = post.data.cover[0];
+---
+
+<Base
+  title={post.data.title}
+  description={post.data.description ?? undefined}
+  imageUrl={image?.secureUrl}
+  pathname={`${siteConfig.pages.blog.link}/${post.id}`}
+  canonicalUrl={post.data.canonical ?? undefined}
+  ogType="article"
+  mainClass="justify-center flex gap-10"
+>
+  <article class="max-w-[816px]">
+    <PostHeader post={post} />
+    <div class="prose-content">
+      <Content />
+    </div>
+    <hr />
+    <PostFooter post={post} />
+  </article>
+  <div class="hidden lg:block">
+    <PostSidebar headings={headings} referringSite={Astro.url.href} />
+  </div>
+  <CodeEnhancer />
+</Base>

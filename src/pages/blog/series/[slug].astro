@@ -1,0 +1,37 @@
+---
+import { getCollection, getEntries } from "astro:content";
+
+import Base from "@/layouts/Base.astro";
+import PostItem from "@/components/modules/blog/post/PostItem.astro";
+import SeriesHeader from "@/components/modules/blog/series/SeriesHeader.astro";
+import Col from "@/components/ui/col";
+import { siteConfig } from "@/config/site";
+
+export async function getStaticPaths() {
+  // Guards against a badly-slugged series ever shadowing the static
+  // /blog/series index route, which Astro would otherwise prefer anyway —
+  // kept explicit since both live in the same directory.
+  const series = await getCollection("series", ({ id }) => id !== "series");
+  return series.map((s) => ({ params: { slug: s.id }, props: { series: s } }));
+}
+
+const { series } = Astro.props;
+const allPosts = series.data.posts.length ? await getEntries(series.data.posts) : [];
+const posts = allPosts.sort(
+  (a, b) => new Date(b.data.publishedAt!).getTime() - new Date(a.data.publishedAt!).getTime()
+);
+---
+
+<Base
+  title={series.data.title}
+  description={series.data.description ?? undefined}
+  imageUrl={series.data.cover?.url}
+  pathname={`${siteConfig.pages.series.link}/${series.id}`}
+>
+  <div class="flex flex-col md:flex-row gap-10">
+    <SeriesHeader series={series} postCount={posts.length} />
+    <Col className="space-y-4 md:basis-2/3">
+      {posts.map((post) => <PostItem {...post.data} isSeries />)}
+    </Col>
+  </div>
+</Base>

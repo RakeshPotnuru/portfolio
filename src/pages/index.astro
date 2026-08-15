@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+
+import Base from "@/layouts/Base.astro";
+import Hero from "@/components/modules/home/Hero.astro";
+import RecentProjects from "@/components/modules/home/RecentProjects.astro";
+import LatestBlogPosts from "@/components/modules/home/LatestBlogPosts.astro";
+import LatestSnippets from "@/components/modules/home/LatestSnippets.astro";
+import WhyHireMe from "@/components/modules/home/WhyHireMe.astro";
+
+const allProjects = await getCollection("projects");
+const allPosts = await getCollection("posts", ({ data }) => !!data.publishedAt);
+const allSnippets = await getCollection("snippets");
+
+const projects = allProjects
+  .sort((a, b) => new Date(b.data.launchedAt).getTime() - new Date(a.data.launchedAt).getTime())
+  .slice(0, 2);
+const posts = allPosts
+  .sort((a, b) => new Date(b.data.publishedAt!).getTime() - new Date(a.data.publishedAt!).getTime())
+  .slice(0, 2);
+const snippets = allSnippets
+  .sort((a, b) => new Date(b.data.createdAt).getTime() - new Date(a.data.createdAt).getTime())
+  .slice(0, 3);
+---
+
+<Base mainClass="space-y-20">
+  <Hero />
+  <RecentProjects projects={projects} />
+  <LatestBlogPosts posts={posts} />
+  <LatestSnippets snippets={snippets} />
+  <WhyHireMe />
+</Base>

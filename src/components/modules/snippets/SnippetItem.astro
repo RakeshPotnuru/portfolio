@@ -1,0 +1,28 @@
+---
+import { Heading } from "@/components/ui/heading";
+import { Badge } from "@/components/ui/reusables/badge";
+import { siteConfig } from "@/config/site";
+
+interface Props {
+  slug: string;
+  description: string | null;
+  tags: string[];
+  title: string;
+}
+
+const { slug, description, tags, title } = Astro.props;
+---
+
+<a href={`${siteConfig.pages.snippets.link}/${slug}`} class="border rounded-xl p-4 hover:opacity-80 block">
+  <Heading level={6}>{title}</Heading>
+  <p class="text-sm text-muted-foreground">{description}</p>
+  <div class="flex flex-wrap gap-2 mt-2">
+    {
+      tags.slice(0, 3).map((tag) => (
+        <Badge variant={"secondary"} className="uppercase">
+          #{tag}
+        </Badge>
+      ))
+    }
+  </div>
+</a>

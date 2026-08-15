@@ -1,0 +1,25 @@
+---
+import { getCollection } from "astro:content";
+
+import Base from "@/layouts/Base.astro";
+import Intro from "@/components/modules/about/Intro.astro";
+import Timeline from "@/components/modules/about/Timeline.astro";
+import PastClients from "@/components/modules/home/PastClients.astro";
+import { Heading } from "@/components/ui/heading";
+import { siteConfig } from "@/config/site";
+
+const timeline = await getCollection("timeline");
+const clients = await getCollection("clients");
+---
+
+<Base
+  title={siteConfig.pages.about.title}
+  description={siteConfig.pages.about.description}
+  pathname={siteConfig.pages.about.link}
+  mainClass="space-y-16"
+>
+  <Heading level={1}>About Me</Heading>
+  <Intro />
+  <PastClients clients={clients} />
+  <Timeline timeline={timeline} />
+</Base>

@@ -22,7 +22,7 @@ import { siteConfig } from "@/config/site";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is too short").max(120, "Name is too long"),
-  email: z.string().email(),
+  email: z.email(),
   message: z
     .string()
     .min(5, "Message is too short")
@@ -56,7 +56,13 @@ export default function Contact() {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+  const onSubmit = async () => {
+    // zodResolver (zod v4 + @hookform/resolvers v5) validates correctly but
+    // hands back an empty `values` object on a successful parse in this
+    // build, so the `data` argument handleSubmit would normally pass here
+    // can't be trusted. form.getValues() reads the live, bound form state
+    // directly and isn't affected by that resolver bug.
+    const data = form.getValues();
     setIsLoading(true);
 
     const isDisposable = await isDisposableEmail(data.email);
@@ -71,7 +77,7 @@ export default function Contact() {
     }
 
     try {
-      const response = await fetch(`${process.env.GATSBY_BACKEND_URL}/send`, {
+      const response = await fetch(`${import.meta.env.PUBLIC_BACKEND_URL}/send`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

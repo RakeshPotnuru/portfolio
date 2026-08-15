@@ -1,0 +1,31 @@
+---
+import { Icons } from "@/assets/icons";
+import { siteConfig } from "@/config/site";
+import Row from "@/components/ui/row";
+
+const { github, linkedin, medium, peerlist, donate } = siteConfig.links;
+
+const items = [
+  { icon: Icons.GitHub, link: github, title: "GitHub" },
+  { icon: Icons.LinkedIn, link: linkedin, title: "LinkedIn" },
+  { icon: Icons.Medium, link: medium, title: "Medium" },
+  { icon: Icons.Peerlist, link: peerlist, title: "Peerlist" },
+  { icon: Icons.Donate, link: donate, title: "Donate" },
+];
+---
+
+<Row className="gap-2">
+  {
+    items.map((item) => (
+      <a
+        href={item.link}
+        class="text-2xl hover:opacity-90"
+        target="_blank"
+        title={item.title}
+        rel="noreferrer"
+      >
+        <item.icon />
+      </a>
+    ))
+  }
+</Row>

@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import { Heading } from "@/components/ui/heading";
+import { Button } from "@/components/ui/reusables/button";
+import Row from "@/components/ui/row";
+import { siteConfig } from "@/config/site";
+import PostItem from "@/components/modules/blog/post/PostItem.astro";
+
+interface Props {
+  posts: CollectionEntry<"posts">[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="space-y-16">
+  <Row className="justify-between">
+    <Heading level={2}>Latest Blog Posts</Heading>
+    <a href={siteConfig.pages.blog.link}>
+      <Button>View All</Button>
+    </a>
+  </Row>
+  <div class="gap-10 grid md:grid-cols-2">
+    {posts.map((post) => <PostItem {...post.data} />)}
+  </div>
+</div>

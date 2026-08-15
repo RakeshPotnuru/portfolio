@@ -1,0 +1,50 @@
+---
+import { siteMetadata } from "@/config/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  imageUrl?: string;
+  pathname?: string;
+  canonicalUrl?: string;
+  ogType?: "website" | "article";
+}
+
+const {
+  title,
+  description,
+  image,
+  imageUrl,
+  // Defaults to the current route rather than requiring every caller to pass
+  // one. templates/snippet.tsx used to hardcode this to the blog path,
+  // producing a wrong canonical/og:url on every /snippets/<slug> page —
+  // defaulting here means a route can no longer forget to set it correctly.
+  pathname = Astro.url.pathname,
+  canonicalUrl,
+  ogType = "website",
+} = Astro.props;
+
+const seo = {
+  title: title ? `${title} | ${siteMetadata.title}` : siteMetadata.title,
+  description: description ?? siteMetadata.description,
+  image: imageUrl || `${siteMetadata.siteUrl}${image ?? siteMetadata.image}`,
+  url: `${siteMetadata.siteUrl}${pathname}`,
+};
+---
+
+<title lang="en-US">{seo.title}</title>
+<meta name="description" content={seo.description} />
+<meta name="image" content={seo.image} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={seo.title} />
+<meta name="twitter:url" content={seo.url} />
+<meta name="twitter:description" content={seo.description} />
+<meta name="twitter:image" content={seo.image} />
+<meta name="twitter:creator" content={siteMetadata.twitterUsername} />
+<meta property="og:title" content={seo.title} />
+<meta property="og:url" content={seo.url} />
+<meta property="og:description" content={seo.description} />
+<meta property="og:image" content={seo.image} />
+<meta property="og:type" content={ogType} />
+{canonicalUrl && <link rel="canonical" href={canonicalUrl} />}

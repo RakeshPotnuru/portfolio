@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import { Heading } from "@/components/ui/heading";
+import { Button } from "@/components/ui/reusables/button";
+import Row from "@/components/ui/row";
+import { siteConfig } from "@/config/site";
+import SnippetItem from "@/components/modules/snippets/SnippetItem.astro";
+
+interface Props {
+  snippets: CollectionEntry<"snippets">[];
+}
+
+const { snippets } = Astro.props;
+---
+
+<div class="space-y-16">
+  <Row className="justify-between">
+    <Heading level={2}>Latest Snippets</Heading>
+    <a href={siteConfig.pages.snippets.link}>
+      <Button>View All</Button>
+    </a>
+  </Row>
+  <div class="gap-10 grid md:grid-cols-3">
+    {snippets.map((snippet) => <SnippetItem {...snippet.data} />)}
+  </div>
+</div>

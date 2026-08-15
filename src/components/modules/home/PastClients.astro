@@ -1,0 +1,55 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import Col from "@/components/ui/col";
+import { Heading } from "@/components/ui/heading";
+import { ctf } from "@/utils/images";
+
+interface Props {
+  clients: CollectionEntry<"clients">[];
+}
+
+const { clients } = Astro.props;
+---
+
+<Col className="space-y-16">
+  <Heading level={2}>Worked With</Heading>
+  <div class="marquee-wrapper overflow-hidden w-full">
+    <div class="marquee-track flex w-max items-center">
+      {
+        // Duplicated once for a seamless CSS loop (translateX 0 -> -50%),
+        // replacing react-fast-marquee's autoFill/speed props.
+        [...clients, ...clients].map(
+          (client) =>
+            client.data.logo && (
+              <img
+                src={ctf(client.data.logo.url, { w: 200 })}
+                alt={client.data.name}
+                title={client.data.name}
+                loading="lazy"
+                decoding="async"
+                class="w-28 h-full mx-10 object-contain"
+              />
+            )
+        )
+      }
+    </div>
+  </div>
+</Col>
+
+<style>
+  .marquee-track {
+    animation: marquee 18s linear infinite;
+  }
+  .marquee-wrapper:hover .marquee-track {
+    animation-play-state: paused;
+  }
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

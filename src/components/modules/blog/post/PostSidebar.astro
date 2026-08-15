@@ -1,0 +1,32 @@
+---
+import type { MarkdownHeading } from "astro";
+
+import Subscribe from "@/components/common/subscribe";
+
+interface Props {
+  headings: MarkdownHeading[];
+  referringSite: string;
+}
+
+const { headings, referringSite } = Astro.props;
+---
+
+<aside class="sticky top-4 flex flex-col gap-4 max-h-[calc(100vh-2rem)]">
+  <Subscribe utm_source={"portfolio"} utm_medium={"blog"} referring_site={referringSite} client:visible />
+  {
+    headings.length > 0 && (
+      <div class="border rounded-xl flex flex-col min-h-0 p-4 gap-4">
+        <h3 class="text-xl font-medium text-muted-foreground">Table of Contents</h3>
+        <ol class="overflow-y-auto list-decimal list-inside space-y-2 marker:text-muted-foreground">
+          {headings.map((h) => (
+            <li style={{ marginLeft: `${(h.depth - 1) * 10}px` }} class="py-1 font-medium">
+              <a href={`#${h.slug}`} class="no-underline hover:text-primary transition-colors duration-200">
+                {h.text}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
+    )
+  }
+</aside>

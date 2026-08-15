@@ -1,0 +1,31 @@
+---
+import { Icons } from "@/assets/icons";
+import Col from "@/components/ui/col";
+import Row from "@/components/ui/row";
+import Subscribe from "@/components/common/subscribe";
+
+import SocialItems from "./SocialItems.astro";
+
+const referringSite = Astro.url.href;
+---
+
+<footer class="bg-black p-[7%]">
+  <Col className="space-y-6">
+    <p class="text-6xl font-bold text-center">Let's Connect</p>
+    <Row className="gap-2">
+      <SocialItems />
+      <a class="text-2xl hover:opacity-90" href="/rss.xml" title="RSS Feed">
+        <Icons.Feed />
+      </a>
+    </Row>
+    <Subscribe
+      utm_source={"portfolio"}
+      utm_medium={"footer"}
+      referring_site={referringSite}
+      client:visible
+    />
+    <p class="text-muted-foreground mt-6">
+      &copy; 2021 - {new Date().getFullYear()} itsrakesh. v2.
+    </p>
+  </Col>
+</footer>

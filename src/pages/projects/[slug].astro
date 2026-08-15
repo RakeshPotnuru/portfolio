@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+
+import Base from "@/layouts/Base.astro";
+import ProjectHeader from "@/components/modules/projects/project/ProjectHeader";
+import ProjectBody from "@/components/modules/projects/project/ProjectBody.astro";
+import { siteConfig } from "@/config/site";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const image = project.data.images[0];
+---
+
+<Base
+  title={project.data.title}
+  imageUrl={image?.url}
+  pathname={`${siteConfig.pages.projects.link}/${project.id}`}
+  ogType="article"
+  mainClass="justify-center flex"
+>
+  <article class="flex flex-col gap-10 max-w-[816px]">
+    <ProjectHeader images={project.data.images} videoDemoUrl={project.data.videoDemoUrl} client:load />
+    <ProjectBody project={project} />
+  </article>
+</Base>

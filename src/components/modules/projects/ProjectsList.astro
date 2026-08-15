@@ -1,0 +1,164 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import { Icons } from "@/assets/icons";
+import { Heading } from "@/components/ui/heading";
+import { Button } from "@/components/ui/reusables/button";
+import Row from "@/components/ui/row";
+import { ctf } from "@/utils/images";
+
+import ProjectItem from "./project/ProjectItem.astro";
+
+interface Props {
+  projects: CollectionEntry<"projects">[];
+  technologies: CollectionEntry<"technologies">[];
+}
+
+const { projects, technologies } = Astro.props;
+
+// technology.project doesn't exist in Contentful — it was a Gatsby-only
+// inferred reverse-link (see content.config.ts). Rebuilt here by scanning
+// every project's techStack once at build time.
+const projectsByTech = new Map<string, number>();
+for (const project of projects) {
+  for (const techId of project.data.techStack) {
+    projectsByTech.set(techId.id, (projectsByTech.get(techId.id) ?? 0) + 1);
+  }
+}
+
+const technologiesByType = new Map<string, typeof technologies>();
+for (const tech of technologies) {
+  const types = tech.data.type.length > 0 ? tech.data.type : ["Others"];
+  for (const type of types) {
+    if (!technologiesByType.has(type)) technologiesByType.set(type, []);
+    technologiesByType.get(type)!.push(tech);
+  }
+}
+const sortedTypes = [...technologiesByType.keys()].sort((a, b) => {
+  if (a === "Others") return 1;
+  if (b === "Others") return -1;
+  return a.localeCompare(b);
+});
+---
+
+<div class="space-y-16">
+  <Row className="justify-between">
+    <Heading level={1}>Projects</Heading>
+    <Button id="projects-filter-toggle" variant={"secondary"} data-active="false">
+      <Icons.Filter /> Filter
+    </Button>
+  </Row>
+  <div class="space-y-6">
+    <div id="projects-filter-panel" class="space-y-4 hidden">
+      <Heading level={6}>Filter</Heading>
+      <Button id="projects-filter-reset" variant={"outline"} size={"sm"} className="text-sm hidden">
+        All ({projects.length})
+      </Button>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {
+          sortedTypes.map((type) => (
+            <div class="space-y-2">
+              <h3 class="text-sm font-medium text-muted-foreground">{type}</h3>
+              <div class="flex flex-wrap gap-2">
+                {technologiesByType.get(type)!.map((tech) => (
+                  <button
+                    type="button"
+                    data-tech-filter={tech.id}
+                    data-active="false"
+                    class="tech-filter-btn inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3"
+                  >
+                    {tech.data.icon && (
+                      <img
+                        src={ctf(tech.data.icon.url, { w: 32, h: 32, fit: "fill" })}
+                        alt={tech.data.title}
+                        width="16"
+                        height="16"
+                        loading="lazy"
+                        decoding="async"
+                        class="w-4 h-4 rounded-[3px]"
+                      />
+                    )}
+                    {tech.data.title} ({projectsByTech.get(tech.id) ?? 0})
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
+      {
+        projects.map((project) => (
+          <div data-tech={project.data.techStack.map((t) => t.id).join(",")}>
+            <ProjectItem
+              title={project.data.title}
+              image={project.data.images[0] ?? null}
+              slug={project.id}
+              url={project.data.url}
+              tags={project.data.tags}
+              launchedAt={project.data.launchedAt}
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .tech-filter-btn[data-active="true"] {
+    background-color: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+    border-color: transparent;
+  }
+  #projects-filter-toggle[data-active="false"] {
+    background-color: transparent;
+    color: hsl(var(--foreground));
+  }
+  #projects-filter-toggle[data-active="false"]:hover {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+</style>
+
+<script>
+  const grid = document.getElementById("projects-grid");
+  const panel = document.getElementById("projects-filter-panel");
+  const toggle = document.getElementById("projects-filter-toggle");
+  const reset = document.getElementById("projects-filter-reset");
+  const techButtons = document.querySelectorAll<HTMLElement>("[data-tech-filter]");
+
+  const selected = new Set<string>();
+
+  function applyFilter() {
+    grid?.querySelectorAll<HTMLElement>("[data-tech]").forEach((card) => {
+      const techs = (card.dataset.tech ?? "").split(",").filter(Boolean);
+      card.hidden = selected.size > 0 && !techs.some((t) => selected.has(t));
+    });
+    reset?.classList.toggle("hidden", selected.size === 0);
+    techButtons.forEach((btn) => {
+      btn.dataset.active = String(selected.has(btn.dataset.techFilter ?? ""));
+    });
+  }
+
+  techButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.techFilter ?? "";
+      if (selected.has(id)) selected.delete(id);
+      else selected.add(id);
+      applyFilter();
+    });
+  });
+
+  reset?.addEventListener("click", () => {
+    selected.clear();
+    applyFilter();
+  });
+
+  toggle?.addEventListener("click", () => {
+    const isOpen = toggle.dataset.active === "true";
+    toggle.dataset.active = String(!isOpen);
+    panel?.classList.toggle("hidden", isOpen);
+  });
+</script>

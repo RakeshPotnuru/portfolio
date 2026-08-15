@@ -1,0 +1,36 @@
+---
+import { getEntries } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+import CommentBox from "@/components/common/CommentBox.astro";
+import DonationBox from "@/components/common/DonationBox.astro";
+import { Heading } from "@/components/ui/heading";
+
+import PostItem from "./PostItem.astro";
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+
+const { post } = Astro.props;
+const recommended = post.data.recommendedPosts.length
+  ? await getEntries(post.data.recommendedPosts)
+  : [];
+---
+
+<div class="space-y-16">
+  <DonationBox />
+  <CommentBox />
+  {
+    recommended.length > 0 && (
+      <div class="space-y-16">
+        <Heading level={3}>Recommended</Heading>
+        <div class="grid md:grid-cols-2 gap-6">
+          {recommended.map((p) => (
+            <PostItem {...p.data} />
+          ))}
+        </div>
+      </div>
+    )
+  }
+</div>

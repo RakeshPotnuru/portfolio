@@ -1,0 +1,40 @@
+---
+import { Image } from "astro:assets";
+
+import selfMotivation from "@/images/self-motivation.png";
+import collaborative from "@/images/collaborative.png";
+import workEthic from "@/images/work-ethic.png";
+import communicative from "@/images/communicative.png";
+import Col from "@/components/ui/col";
+import { Heading } from "@/components/ui/heading";
+
+const items = [
+  { img: selfMotivation, title: "Self Motivated", description: "I put myself into action to achieve my goals." },
+  { img: collaborative, title: "Collaborative", description: "Teamwork makes the dream work, right?" },
+  { img: workEthic, title: "Workaholic", description: "I don't wait for deadlines, deadlines wait for me." },
+  {
+    img: communicative,
+    title: "Communicative",
+    description: "I balance talking and listening for effective communication.",
+  },
+];
+---
+
+<Col className="space-y-16">
+  <Heading level={2}>
+    Why Hire Me<span class="text-primary">?</span>
+  </Heading>
+  <div class="gap-6 grid md:grid-cols-2 lg:grid-cols-4 text-center">
+    {
+      items.map((item) => (
+        <Col className="space-y-3">
+          <Image src={item.img} alt={item.title} class="bg-white rounded-3xl" />
+          <Heading level={3} className="text-chart-6">
+            {item.title}
+          </Heading>
+          <p>{item.description}</p>
+        </Col>
+      ))
+    }
+  </div>
+</Col>

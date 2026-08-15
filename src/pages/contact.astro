@@ -1,0 +1,16 @@
+---
+import Base from "@/layouts/Base.astro";
+import Contact from "@/components/modules/contact";
+import { Heading } from "@/components/ui/heading";
+import { siteConfig } from "@/config/site";
+---
+
+<Base
+  title={siteConfig.pages.contact.title}
+  description={siteConfig.pages.contact.description}
+  pathname={siteConfig.pages.contact.link}
+  mainClass="space-y-16"
+>
+  <Heading level={1}>Contact Me</Heading>
+  <Contact client:load />
+</Base>

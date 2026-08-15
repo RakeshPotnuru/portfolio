@@ -1,48 +1,92 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 
-@layer base {
-  :root {
-    --background: 0 0% 11%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 11%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 11%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 19.3 100% 50.6%;
-    --primary-foreground: 0 85.7% 97.3%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 19.3 100% 50.6%;
-    --radius: 0.75rem;
-    --chart-1: 207 65.7% 73.7%;
-    --chart-2: 182deg, 42.6%, 60.4%;
-    --chart-3: 183deg, 27.7%, 30.4%;
-    --chart-4: 207deg, 23.4%, 36.9%;
-    --chart-5: 39.8deg, 74.5%, 46.1%;
-    --chart-6: 226deg, 100%, 75.9%;
-    --chart-7: 48deg, 100%, 50%;
-  }
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: 0 0% 11%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 11%;
+  --card-foreground: 0 0% 98%;
+  --popover: 0 0% 11%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 19.3 100% 50.6%;
+  --primary-foreground: 0 85.7% 97.3%;
+  --secondary: 0 0% 14.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 14.9%;
+  --muted-foreground: 0 0% 63.9%;
+  --accent: 0 0% 14.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 14.9%;
+  --input: 0 0% 14.9%;
+  --ring: 19.3 100% 50.6%;
+  --radius: 0.75rem;
+  --chart-1: 207 65.7% 73.7%;
+  /* Normalized to space-separated HSL triplets (was "182deg, 42.6%, 60.4%" etc.) —
+     the comma+deg form is tolerated by hsl(var(--x)) but breaks hsl(var(--x) / <alpha>),
+     which Tailwind v4's @theme color pipeline and every /NN opacity modifier rely on. */
+  --chart-2: 182 42.6% 60.4%;
+  --chart-3: 183 27.7% 30.4%;
+  --chart-4: 207 23.4% 36.9%;
+  --chart-5: 39.8 74.5% 46.1%;
+  --chart-6: 226 100% 75.9%;
+  --chart-7: 48 100% 50%;
+}
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+  --color-chart-6: hsl(var(--chart-6));
+  --color-chart-7: hsl(var(--chart-7));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-spin: spin 1s linear infinite;
 }
 
 @layer base {
   * {
-    @apply border-border [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:shadow-[inset_0_0_6px_hsl(var(--primary))] [&::-webkit-scrollbar-thumb]:rounded-md [&::-webkit-scrollbar-thumb]:bg-primary;
-    @apply [&::selection]:bg-primary [&::selection]:text-foreground;
-    @apply scroll-smooth;
+    @apply border-border scroll-smooth
+      [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar]:h-2
+      [&::-webkit-scrollbar-track]:shadow-[inset_0_0_6px_hsl(var(--primary))]
+      [&::-webkit-scrollbar-thumb]:rounded-md [&::-webkit-scrollbar-thumb]:bg-primary
+      [&::selection]:bg-primary [&::selection]:text-foreground;
   }
   body {
     @apply bg-background text-foreground;
     font-family: "Poppins", sans-serif;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
   }
 }
 
@@ -72,8 +116,7 @@
   }
 }
 
-iframe,
-.react-player__preview {
+iframe {
   @apply rounded-xl;
 }
 
@@ -81,6 +124,32 @@ a {
   cursor: pointer;
 }
 
-article {
+/* Opt-in, not `article { ... }` — an <article> is also used for plain UI
+   (ProjectItem's card, the wrapper around ProjectHeader/ProjectBody) that
+   has no business inheriting prose's default spacing on every img/heading
+   it happens to contain. Found the hard way: prose's default ~40px img
+   margin was pushing/clipping images in a project card, tech-stack badge
+   icons, and the project carousel, none of which are actual document
+   content. Apply this class directly to the element wrapping real
+   rendered content (markdown Content, a rich-text set:html div) instead. */
+.prose-content {
   @apply prose md:prose-lg lg:prose-xl prose-invert prose-img:rounded-xl prose-a:text-primary prose-pre:p-0;
+}
+
+/* Shiki (build-time) code blocks replace react-syntax-highlighter's runtime
+   line numbers / max-height in Phase 6 — defined here so it lands with the
+   rest of the theme instead of arriving piecemeal later. */
+.prose-content pre.astro-code {
+  max-height: 30rem;
+  overflow: auto;
+}
+
+.prose-content pre.astro-code code {
+  counter-reset: line;
+}
+
+.prose-content pre.astro-code .line::before {
+  counter-increment: line;
+  content: counter(line);
+  @apply mr-4 inline-block w-8 select-none text-right text-muted-foreground/60;
 }

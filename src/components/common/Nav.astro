@@ -1,0 +1,93 @@
+---
+import { Image } from "astro:assets";
+import { Menu } from "lucide-react";
+
+import icon from "@/images/icon.png";
+import { siteConfig } from "@/config/site";
+import { cn } from "@/utils/cn";
+import { Button } from "@/components/ui/reusables/button";
+import Row from "@/components/ui/row";
+
+const pathname = Astro.url.pathname;
+const navItems = Object.values(siteConfig.pages).filter(
+  (item) => item !== siteConfig.pages.series
+);
+
+const isActive = (link: string) =>
+  pathname.startsWith(link) && (link !== "/" || pathname === "/");
+---
+
+{
+  !siteConfig.hideBanner && (
+    <header
+      role="banner"
+      class="p-2 bg-[linear-gradient(_43deg,#4158d0_0%,#c850c0_46%,#ffcc70_100%_)] text-white text-center"
+    >
+      <a href={siteConfig.links.email} class="underline">
+        Hire Me
+      </a>{" "}
+      (Open to full-time)
+    </header>
+  )
+}
+<nav role="navigation" class="relative flex justify-between items-center py-8 px-[7%]">
+  <a href="/">
+    <Image
+      src={icon}
+      alt="itsrakesh logo"
+      width={60}
+      height={60}
+      class="hover:animate-spin rounded-full cursor-pointer"
+    />
+  </a>
+
+  <Row className="hidden md:flex gap-2">
+    {
+      navItems.map((item) => (
+        <a href={item.link}>
+          <Button
+            variant={"ghost"}
+            className={cn("font-semibold text-md", {
+              "text-primary": isActive(item.link),
+            })}
+          >
+            {item.title}
+          </Button>
+        </a>
+      ))
+    }
+  </Row>
+
+  <!-- Zero-JS mobile menu: <details>/<summary> instead of a Radix
+       DropdownMenu island (was a client:media React island through Phase 4-6;
+       this was the one component Phase 7 was left to reconsider). The only
+       real behavior difference from Radix is that clicking outside the menu
+       doesn't auto-close it — only clicking the trigger again does, which is
+       a common and accepted pattern for <details>-based menus and was judged
+       an acceptable trade for shipping zero JS on every page instead of a
+       React chunk (@radix-ui/react-dropdown-menu is no longer a dependency
+       of anything). -->
+  <details class="relative md:hidden [&_summary::-webkit-details-marker]:hidden">
+    <summary
+      class="list-none cursor-pointer inline-flex h-10 w-10 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground [&_svg]:pointer-events-none"
+    >
+      <Menu />
+      <span class="sr-only">Toggle menu</span>
+    </summary>
+    <div class="absolute right-0 z-50 mt-2 w-48 rounded-md border bg-popover p-1 text-popover-foreground shadow-md">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.link}
+            class={cn(
+              "flex w-full items-center rounded-sm px-2 py-1.5 text-sm font-semibold hover:bg-accent hover:text-accent-foreground",
+              { "text-primary": pathname === item.link }
+            )}
+          >
+            {item.title}
+          </a>
+        ))
+      }
+    </div>
+  </details>
+</nav>

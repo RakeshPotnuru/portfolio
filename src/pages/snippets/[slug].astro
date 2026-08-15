@@ -1,0 +1,41 @@
+---
+import { getCollection, render } from "astro:content";
+
+import Base from "@/layouts/Base.astro";
+import CodeEnhancer from "@/components/common/CodeEnhancer.astro";
+import CommentBox from "@/components/common/CommentBox.astro";
+import DonationBox from "@/components/common/DonationBox.astro";
+import { Heading } from "@/components/ui/heading";
+import { siteConfig } from "@/config/site";
+
+export async function getStaticPaths() {
+  const snippets = await getCollection("snippets");
+  return snippets.map((snippet) => ({ params: { slug: snippet.id }, props: { snippet } }));
+}
+
+const { snippet } = Astro.props;
+const { Content } = await render(snippet);
+---
+
+<Base
+  title={snippet.data.title}
+  description={snippet.data.description ?? undefined}
+  pathname={`${siteConfig.pages.snippets.link}/${snippet.id}`}
+  ogType="article"
+  mainClass="justify-center flex"
+>
+  <article class="max-w-[816px]">
+    <Heading level={1} className="text-foreground leading-tight">
+      {snippet.data.title}
+    </Heading>
+    <div class="prose-content">
+      <Content />
+    </div>
+    <hr />
+    <div class="space-y-16">
+      <DonationBox />
+      <CommentBox />
+    </div>
+  </article>
+  <CodeEnhancer />
+</Base>

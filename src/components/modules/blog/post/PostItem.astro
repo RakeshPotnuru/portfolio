@@ -1,0 +1,93 @@
+---
+import { format, parseISO } from "date-fns";
+
+import { Heading } from "@/components/ui/heading";
+import { Badge } from "@/components/ui/reusables/badge";
+import { siteConfig } from "@/config/site";
+import { cn } from "@/utils/cn";
+import { cldSrcSet, cld } from "@/utils/images";
+import { shortenText } from "@/utils/shorten-text";
+import type { CloudinaryImage } from "@/loaders/transforms";
+
+interface Props {
+  title: string;
+  cover: CloudinaryImage[];
+  excerpt: string | null;
+  tags: string[];
+  slug: string;
+  isFeatured: boolean;
+  publishedAt: string | null;
+  isSeries?: boolean;
+}
+
+const { title, cover, excerpt, tags, slug, isFeatured, publishedAt, isSeries } = Astro.props;
+const image = cover[0];
+const href = `${siteConfig.pages.blog.link}/${slug}`;
+---
+
+<a href={href}>
+  <div
+    class={cn("rounded-xl border hover:opacity-80 h-full items-start flex flex-col", {
+      "md:flex-row md:items-start md:h-full": isSeries,
+    })}
+  >
+    <div
+      class={cn("relative", {
+        "md:basis-2/5 md:h-full": isSeries,
+      })}
+    >
+      {
+        image && (
+          <img
+            src={cld(image.secureUrl, "f_webp,q_auto,c_fill,g_auto,w_800,h_450")}
+            srcset={cldSrcSet(image.secureUrl, [400, 800, 1200], 9 / 16)}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            alt={title}
+            loading="lazy"
+            decoding="async"
+            class={cn("rounded-t-xl object-cover aspect-video w-full", {
+              "md:rounded-none md:rounded-l-xl md:aspect-auto md:h-full": isSeries,
+            })}
+          />
+        )
+      }
+      {
+        isFeatured && (
+          <Badge className="uppercase absolute right-2 top-2 bg-gradient-to-l from-[#7928CA] to-[#FF0080]">
+            Featured
+          </Badge>
+        )
+      }
+    </div>
+    <div
+      class={cn("space-y-2 p-4 items-start flex flex-col", {
+        "md:basis-3/5": isSeries,
+      })}
+    >
+      <Heading level={6} className={isSeries ? "text-md" : undefined}>
+        {title}
+      </Heading>
+      <p class="text-sm text-muted-foreground">
+        {shortenText(excerpt ?? "", isSeries ? 100 : 160)}
+      </p>
+      <div class="flex justify-between w-full items-center">
+        <div class="flex flex-wrap gap-2">
+          {
+            tags.slice(0, 2).map((tag) => (
+              <Badge variant={"secondary"} className="uppercase">
+                #{tag}
+              </Badge>
+            ))
+          }
+        </div>
+        {
+          publishedAt && (
+            <time datetime={publishedAt} class="text-sm text-muted-foreground">
+              {format(parseISO(publishedAt), "MMM d, yyyy")}
+            </time>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</a>

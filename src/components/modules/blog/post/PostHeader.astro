@@ -1,0 +1,69 @@
+---
+import { format, parseISO } from "date-fns";
+import { readingTime } from "reading-time-estimator";
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+
+import avatar from "@/images/avatar.png";
+import Col from "@/components/ui/col";
+import { Heading } from "@/components/ui/heading";
+import Row from "@/components/ui/row";
+import { siteConfig } from "@/config/site";
+import { cld, cldSrcSet } from "@/utils/images";
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+
+const { post } = Astro.props;
+const { title, cover, updatedAt, publishedAt } = post.data;
+const image = cover[0];
+const readTime = readingTime(post.body ?? "");
+const wasUpdated =
+  publishedAt && new Date(updatedAt).toDateString() !== new Date(publishedAt).toDateString();
+---
+
+<Col className="space-y-8 items-start">
+  {
+    image && (
+      <img
+        src={cld(image.secureUrl, "f_webp,q_auto,c_fill,g_auto,w_1200")}
+        srcset={cldSrcSet(image.secureUrl, [600, 1200, 1800])}
+        sizes="(max-width: 768px) 100vw, 800px"
+        alt={title}
+        class="rounded-xl w-full"
+      />
+    )
+  }
+  <Row className="gap-4">
+    <Image
+      src={avatar}
+      alt="Rakesh Potnuru"
+      width={50}
+      height={50}
+      densities={[1, 2, 3]}
+      class="rounded-full bg-primary/90"
+    />
+    <Col className="items-start">
+      <span>
+        <span class="text-sm italic">written by</span> {siteConfig.author}
+      </span>
+      <span class="text-muted-foreground text-sm">
+        {
+          publishedAt && (
+            <time datetime={publishedAt}>{format(parseISO(publishedAt), "MMM d, yyyy")} ・ </time>
+          )
+        }
+        {readTime.text}
+        {
+          wasUpdated && (
+            <time datetime={updatedAt}> ・ Updated {format(parseISO(updatedAt), "MMM d, yyyy")}</time>
+          )
+        }
+      </span>
+    </Col>
+  </Row>
+  <Heading level={1} className="text-foreground leading-tight">
+    {title}
+  </Heading>
+</Col>
